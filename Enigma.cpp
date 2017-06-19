@@ -12,11 +12,11 @@ namespace mtm {
         };
 
         bool Enigma::operator==(const Enigma& enigma) const{
-            return enigma.difficulty == difficulty && enigma.name == name;
+            return difficulty == enigma.difficulty && name == enigma.name;
         }
 
         bool Enigma::operator!=(const Enigma& enigma) const{
-            return !(enigma == *this);
+            return !(*this == enigma);
         }
 
         bool Enigma::operator<(const Enigma& enigma) const{

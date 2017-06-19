@@ -9,13 +9,16 @@
 namespace mtm{
 namespace escaperoom {
 using std::string
-    class EscapeRoomWrapper{
+    class EscapeRoomWrapper {
         string name;
-        int  maxTime;
+        int maxTime;
         int maxParticipants;
         int level;
         int votes;
-        double avgrate;
+        double avgRate;
+
+        static double calculatePower(const int& maxTime, const int& level,
+                             const int& maxParticipants);
     public:
         // Constructs a new Escape Room with the specified data.
         //

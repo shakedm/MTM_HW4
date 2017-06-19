@@ -106,5 +106,7 @@ void ERWTestsBasic(){
     ASSERT_NOT_EQUAL(11, room11_copy.getRate());
     ASSERT_NOT_EQUAL(21, room21.getRate());
     ASSERT_NOT_EQUAL(14, room14.getRate());
+
+    //D'tor check is moot.
 }
 

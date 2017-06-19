@@ -2,6 +2,7 @@
 #include "mtmtest.h"
 #include <functional>
 #include <string>
+#include <iostream>
 
 using namespace mtm::escaperoom;
 
@@ -108,5 +109,10 @@ void ERWTestsBasic(){
     ASSERT_NOT_EQUAL(14, room14.getRate());
 
     //D'tor check is moot.
+}
+
+int main() {
+    RUN_TEST(ERWTestsBasic);
+    std::cout << "All Done!" << std::endl;
 }
 

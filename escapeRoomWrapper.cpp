@@ -8,7 +8,7 @@ namespace escaperoom{
 
     EscapeRoomWrapper::EscapeRoomWrapper(char *name, const int &escapeTime,
                       const int &level, const int &maxParticipants) {
-        this->name=name;//is this correct?
+        this->name=std::string(name);//is this correct?
         this->level=level;
         this->maxTime=escapeTime;
         this->maxParticipants=maxParticipants;

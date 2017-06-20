@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <set>
+#include "Exceptions.h"
 
 using std::set;
 using std::string;
@@ -19,7 +20,8 @@ namespace escaperoom{
     class Enigma{
         Difficulty difficulty;
         int numOfElements;
-        std::string name;
+        string name;
+        set<string> elements;
     public:
 
         // Constructs a new Enigma with the specified data.
@@ -27,9 +29,43 @@ namespace escaperoom{
         // @param name : the name of the enigma.
         // @param difficulty : the difficulty of the enigma.
         // @param numOfElements : the number of elements in the enigma.
-        Enigma(const std::string& name, const Difficulty& difficulty,
-               const int& numOfElements);
+        //Enigma(const std::string& name, const Difficulty& difficulty,
+        //       const int& numOfElements);
 
+        /*!
+         * Constructs a new Enigma with the specified data.
+         * @param name : the name of the enigma.
+         * @param difficulty : the difficulty of the enigma.
+         * @param numOfElements : the number of elements in the enigma.
+         * @param elements : a set of type string elements/
+         *
+         * @exception EnigmaIllegalSizeParamException : the numOfElements is
+         *              different from the given set size.
+         */
+        Enigma(const std::string& name, const Difficulty& difficulty,
+               const int& numOfElements, const set<string>& elements);
+
+        /*!
+         * Constructs a new Enigma with the specified data.
+         * initiallizes the numOfElements to 0 & elements to empty set.
+         * @param name : the name of the enigma.
+         * @param difficulty : the difficulty of the enigma.
+         */
+        Enigma(const std::string& name, const Difficulty& difficulty);
+
+        /*!
+         * function adds a string type element and adds it to elements set.
+         * @param element : the string element to add to the set.
+         */
+        void addElement(const string& element);
+
+        /*!
+         * function removes the sepecified string element from the elements set.
+         * @param element : the string element to remove.
+         *
+         * @exception EnigmaNoElementsException : the elemts isn't in the set.
+         */
+        void removeElement(const string& element);
 
         //copy constructor
         //
@@ -41,8 +77,8 @@ namespace escaperoom{
         //@param enigma : the enigma to be assigned.
         Enigma& operator=(const Enigma& enigma) = default;
 
-        // Comparison operators for Enigmas. enigmas are compared as described in
-        // the exercise sheet.
+        // Comparison operators for Enigmas. enigmas are compared as described
+        // in the exercise sheet.
         //
         // @param enigma : the right-hand side operand.
         bool operator==(const Enigma& enigma) const;
@@ -70,6 +106,9 @@ namespace escaperoom{
         // @param output : the output stream to which the data is printed.
         // @param enigma : the enigma whose data is printed.
         friend std::ostream& operator<<(std::ostream& output, const Enigma& enigma);
+
+        //friend std::set<std::string>;
+
 
         ~Enigma() = default;
 

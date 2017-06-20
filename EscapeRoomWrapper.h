@@ -8,7 +8,7 @@
 
 namespace mtm{
 namespace escaperoom {
-using std::string
+using std::string;
     class EscapeRoomWrapper {
         string name;
         int maxTime;

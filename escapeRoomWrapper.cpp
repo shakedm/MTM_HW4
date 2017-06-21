@@ -12,7 +12,7 @@ namespace escaperoom{
         if(room==NULL){
             throw EscapeRoomMemoryProblemException();
         }
-
+        escaperoom=room;
     }
 
     EscapeRoomWrapper::EscapeRoomWrapper(char *name, const int &level){
@@ -20,6 +20,7 @@ namespace escaperoom{
         if(!room){
             throw EscapeRoomMemoryProblemException();
         }
+        escaperoom=room;
     }
 
     EscapeRoomWrapper::EscapeRoomWrapper(const EscapeRoomWrapper &room) {
@@ -27,6 +28,7 @@ namespace escaperoom{
         if(!room1){
             throw EscapeRoomMemoryProblemException();
         }
+        this->escaperoom=room1;
     }
 
     int EscapeRoomWrapper::getMaxParticipants() const {
@@ -50,7 +52,7 @@ namespace escaperoom{
     }
 
     //     "<name> (<maxTime>/<level>/<maxParticipants>)"
-    friend std::ostream& operator<<(std::ostream& output,
+    std::ostream& operator<<(std::ostream& output,
                                     const EscapeRoomWrapper& room){
         return output << roomGetName(room.escaperoom) << " (" <<
                          roomGetMaxTime(room.escaperoom)
@@ -84,7 +86,7 @@ namespace escaperoom{
     void EscapeRoomWrapper::rate(const int& newRate) const{
         updateRate(escaperoom,newRate);
     }
-    virtual EscapeRoomWrapper::~EscapeRoomWrapper(){
+    EscapeRoomWrapper::~EscapeRoomWrapper(){
         escapeRoomDestroy(escaperoom);
     }
     EscapeRoomWrapper & EscapeRoomWrapper::operator=(const EscapeRoomWrapper&

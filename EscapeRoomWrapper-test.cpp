@@ -151,8 +151,8 @@ void check_getMaxParticipants(){
     EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
     EscapeRoomWrapper room12((char *)"room12", 30, 5, 2);
     EscapeRoomWrapper room13((char *)"room13", 70, 10, 2);
-    EscapeRoomWrapper room14((char *)"room14", 70, 1, 2);
-    EscapeRoomWrapper room15((char *)"room15", 70, 5, 1000000);
+    EscapeRoomWrapper room14((char *)"room14", 70, 1, 1000000);
+    EscapeRoomWrapper room15((char *)"room15", 70, 5, 2);
     EscapeRoomWrapper room21((char *)"room21", 1);
     EscapeRoomWrapper room22((char *)"room22", 10);
     EscapeRoomWrapper room23((char *)"room23", 5);
@@ -183,19 +183,19 @@ void check_rate(){
     EscapeRoomWrapper assigned_room = room14;
 
     //rate:
-    room11.rate(11);
-    room21_copy.rate(21);
-    assigned_room.rate(14);
+    room11.rate(5);
+    room21_copy.rate(1);
+    assigned_room.rate(4);
 
     //getRate:
-    ASSERT_EQUALS(11, room11.getRate());
+    ASSERT_EQUALS(5, room11.getRate());
     ASSERT_EQUALS(0, room13.getRate());
-    ASSERT_EQUALS(14, assigned_room.getRate());
-    ASSERT_EQUALS(21, room21_copy.getRate());
+    ASSERT_EQUALS(4, assigned_room.getRate());
+    ASSERT_EQUALS(1, room21_copy.getRate());
     ASSERT_EQUALS(0, room12.getRate());
-    ASSERT_NOT_EQUAL(11, room11_copy.getRate());
-    ASSERT_NOT_EQUAL(21, room21.getRate());
-    ASSERT_NOT_EQUAL(14, room14.getRate());
+    ASSERT_NOT_EQUAL(5, room11_copy.getRate());
+    ASSERT_NOT_EQUAL(1, room21.getRate());
+    ASSERT_NOT_EQUAL(4, room14.getRate());
 }
 
 void ERWTestsBasic(){

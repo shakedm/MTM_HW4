@@ -1,73 +1,101 @@
 
 #include "EscapeRoomWrapper.h"
-
+#include "Exceptions.h"
 
 
 namespace mtm {
 namespace escaperoom{
 
     EscapeRoomWrapper::EscapeRoomWrapper(char *name, const int &escapeTime,
-                      const int &level, const int &maxParticipants) {
-        this->name=std::string(name);//is this correct?
-        this->level=level;
-        this->maxTime=escapeTime;
-        this->maxParticipants=maxParticipants;
-        this->avgRate=0;
-        this->votes=0;
+                      const int &level, const int &maxParticipants){
+        EscapeRoom room=escapeRoomCreate(name,escapeTime,maxParticipants,level);
+        if(room==NULL){
+            throw EscapeRoomMemoryProblemException();
+        }
+
     }
 
-    EscapeRoomWrapper::EscapeRoomWrapper(char *name, const int &level) {
-        this->name=name;
-        this->level=level;
-        this->maxTime=60;
-        this->maxParticipants=6;
-        this->votes=0;
-        this->avgRate=0;
+    EscapeRoomWrapper::EscapeRoomWrapper(char *name, const int &level){
+        EscapeRoom room=escapeRoomCreate(name,60,6,level);
+        if(!room){
+            throw EscapeRoomMemoryProblemException();
+        }
     }
 
     EscapeRoomWrapper::EscapeRoomWrapper(const EscapeRoomWrapper &room) {
-        this->avgRate=0;
-        this->votes=0;
-        this->maxParticipants=room.maxParticipants;
-        this->maxTime=room.maxTime;
-        this->name= room.name;
+        EscapeRoom room1 =escapeRoomCopy(room.escaperoom);
+        if(!room1){
+            throw EscapeRoomMemoryProblemException();
+        }
     }
 
     int EscapeRoomWrapper::getMaxParticipants() const {
-        return this->maxParticipants;
+        return (roomGetMaxParticipants(escaperoom));
     }
 
     int EscapeRoomWrapper::getMaxTime() const {
-        return this->maxTime;
+        return roomGetMaxTime(escaperoom);
     }
 
     double EscapeRoomWrapper::getRate() const {
-        return this->avgRate;
+        return roomGetRate(escaperoom);
+    }
+    int EscapeRoomWrapper::level() const{
+        return getLevel(escaperoom);
     }
 
     std::string EscapeRoomWrapper::getName() const {
-        return this->name;
+        string name(roomGetName(escaperoom));
+        return name;
     }
 
     //     "<name> (<maxTime>/<level>/<maxParticipants>)"
     friend std::ostream& operator<<(std::ostream& output,
                                     const EscapeRoomWrapper& room){
-        return output << room.name << " (" << room.maxTime << "/" << room.level
-                      << "/" << room.maxParticipants << ")";
+        return output << roomGetName(room.escaperoom) << " (" <<
+                         roomGetMaxTime(room.escaperoom)
+                      << "/" << getLevel(room.escaperoom) << "/" <<
+                         roomGetMaxParticipants(room.escaperoom) << ")";
     }
 
     double EscapeRoomWrapper::calculatePower(const int& maxTime, const int& level,
                           const int& maxParticipants){
-
+        double power;
+        power = level*maxTime;
+        power /= maxParticipants;
+        return power;
     }
 
-    bool EscapeRoomWrapper::operator==(const EscapeRoomWrapper& room) const;
+    bool EscapeRoomWrapper::operator==(const EscapeRoomWrapper& room) const{
+        return areEqualRooms(this->escaperoom,room.escaperoom);
+    }
 
-    bool EscapeRoomWrapper::operator!=(const EscapeRoomWrapper& room) const;
+    bool EscapeRoomWrapper::operator!=(const EscapeRoomWrapper& room) const{
+        return !(*this==room);
+    }
 
-    bool EscapeRoomWrapper::operator<(const EscapeRoomWrapper& room) const;
+    bool EscapeRoomWrapper::operator<(const EscapeRoomWrapper& room) const{
+        return isBiggerRoom(room.escaperoom,this->escaperoom);
+    }
 
-    bool EscapeRoomWrapper::operator>(const EscapeRoomWrapper& room) const;
+    bool EscapeRoomWrapper::operator>(const EscapeRoomWrapper& room) const{
+        return isBiggerRoom(this->escaperoom,room.escaperoom);
+    }
+    void EscapeRoomWrapper::rate(const int& newRate) const{
+        updateRate(escaperoom,newRate);
+    }
+    virtual EscapeRoomWrapper::~EscapeRoomWrapper(){
+        escapeRoomDestroy(escaperoom);
+    }
+    EscapeRoomWrapper & EscapeRoomWrapper::operator=(const EscapeRoomWrapper&
+    room){
+        EscapeRoom room1=escapeRoomCopy(room.escaperoom);
+        if (!room1)
+            throw EscapeRoomMemoryProblemException();
+        escapeRoomDestroy(this->escaperoom);
+        this->escaperoom=room1;
+        return *this;
+    }
 
 }
 }

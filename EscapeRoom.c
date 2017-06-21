@@ -71,10 +71,10 @@ int getLevel(EscapeRoom room){
 RoomResult updateRate(EscapeRoom room, int newRate){
     if(!room) return ESCAPEROOM_NULL_ARG;
     if(newRate < 0 || newRate > 5) return ESCAPEROOM_BAD_PARAM;
-    int sum = room->avgRate * room->votes;
+    double sum = room->avgRate * room->votes;
     sum += newRate;
     room->votes++;
-    room->avgRate = ((double)sum/room->votes);
+    room->avgRate = (sum/room->votes);
     return ESCAPEROOM_SUCCESS;
 }
 

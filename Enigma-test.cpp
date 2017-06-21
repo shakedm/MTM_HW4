@@ -145,6 +145,7 @@ void EnigmaGetDifficulty(){
 void EnigmaAddRemoveElement(){
     std::set<string> test = {"first", "second", "third"};
     Enigma first("1", EASY_ENIGMA, 3, test);
+    Enigma second("2", MEDIUM_ENIGMA);
 
     Enigma first_copy(first);
 
@@ -152,6 +153,7 @@ void EnigmaAddRemoveElement(){
 
     first.addElement("forth");
 
+    ASSERT_THROWS(EnigmaNoElementsException, second.removeElement("first"));
     ASSERT_FALSE(first.areEqualyComplex(first_copy));
     ASSERT_THROWS(EnigmaElementNotFundException,
                   first_copy.removeElement("forth"));

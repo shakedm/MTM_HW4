@@ -1,5 +1,7 @@
 #include "Enigma.h"
 
+#define NONE 0
+
 
 namespace mtm {
     namespace escaperoom {
@@ -27,7 +29,7 @@ namespace mtm {
                 name(std::string(name)),
                 elements(),
                 difficulty(difficulty){
-            numOfElements = 0;
+            numOfElements = NONE;
         }
 
         void Enigma::addElement(const string& element){
@@ -36,6 +38,9 @@ namespace mtm {
         }
 
         void Enigma::removeElement(const string& element){
+            if(numOfElements == NONE){
+                throw EnigmaNoElementsException();
+            }
             set<string>::iterator iterator = elements.find(element);
             if (iterator == elements.end()){
                 throw EnigmaElementNotFundException();

@@ -1,12 +1,13 @@
 #include "EscapeRoomWrapper.h"
 #include "mtmtest.h"
+#include "Enigma.h"
 #include <functional>
 #include <string>
 #include <iostream>
 
 using namespace mtm::escaperoom;
 
-void equal(){
+void ERWequal(){
     EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
     EscapeRoomWrapper room13((char *)"room13", 70, 10, 2);
     EscapeRoomWrapper room14((char *)"room14", 70, 1, 2);
@@ -23,7 +24,7 @@ void equal(){
     ASSERT_EQUALS(room13, room13);
 }
 
-void not_equal() {
+void ERWNotEqual() {
     EscapeRoomWrapper room11((char *)"room11", 90, 5, 2); // max escape time
     EscapeRoomWrapper room12((char *)"room12", 30, 5, 2); // min escape time
     EscapeRoomWrapper room13((char *)"room13", 70, 10, 2); // max level
@@ -42,7 +43,7 @@ void not_equal() {
     ASSERT_NOT_EQUAL(room12, room21);
 }
 
-void less_than(){
+void ERWLessThan(){
     EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
     EscapeRoomWrapper room13((char *)"room13", 70, 10, 2);
     EscapeRoomWrapper room15((char *)"room15", 70, 5, 1000000);
@@ -54,7 +55,7 @@ void less_than(){
     ASSERT_FALSE(room22 < room21);
 }
 
-void greater_than(){
+void ERWGreaterThan(){
     EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
     EscapeRoomWrapper room15((char *)"room15", 70, 5, 1000000);
     EscapeRoomWrapper room21((char *)"room21", 1);
@@ -67,7 +68,7 @@ void greater_than(){
     ASSERT_TRUE(room22 > room21);
 }
 
-void print(){
+void ERWPrint(){
     EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
     EscapeRoomWrapper room14((char *)"room14", 70, 1, 2);
     EscapeRoomWrapper room21((char *)"room21", 1);
@@ -80,7 +81,7 @@ void print(){
     ASSERT_PRINT("room14 (70/1/2)", assigned_room);
 }
 
-void check_level(){
+void ERWLevel(){
     EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
     EscapeRoomWrapper room12((char *)"room12", 30, 5, 2);
     EscapeRoomWrapper room13((char *)"room13", 70, 10, 2);
@@ -102,7 +103,7 @@ void check_level(){
     ASSERT_NOT_EQUAL(7, room23.level());
 }
 
-void check_getName(){
+void ERWGetName(){
     EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
     EscapeRoomWrapper room12((char *)"room12", 30, 5, 2);
     EscapeRoomWrapper room13((char *)"room13", 70, 10, 2);
@@ -125,7 +126,7 @@ void check_getName(){
     ASSERT_NOT_EQUAL("room32", room23.getName());
 }
 
-void check_getMaxTime(){
+void ERWGetMaxTime(){
     EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
     EscapeRoomWrapper room12((char *)"room12", 30, 5, 2);
     EscapeRoomWrapper room13((char *)"room13", 70, 10, 2);
@@ -147,7 +148,7 @@ void check_getMaxTime(){
     ASSERT_NOT_EQUAL(7, room23.getMaxTime());
 }
 
-void check_getMaxParticipants(){
+void ERWGetMaxParticipants(){
     EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
     EscapeRoomWrapper room12((char *)"room12", 30, 5, 2);
     EscapeRoomWrapper room13((char *)"room13", 70, 10, 2);
@@ -170,7 +171,7 @@ void check_getMaxParticipants(){
     ASSERT_NOT_EQUAL(7, room23.getMaxParticipants());
 }
 
-void check_rate(){
+void ERWRate(){
     EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
     EscapeRoomWrapper room12((char *)"room12", 30, 5, 2);
     EscapeRoomWrapper room13((char *)"room13", 70, 10, 2);
@@ -217,20 +218,101 @@ void ERWTestsBasic(){
     EscapeRoomWrapper assigned_room = room14;
 }
 
+void ERWAddRemoveEnigma(){
+    EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
+    EscapeRoomWrapper room21((char *)"room21", 1);
+
+    std::set<string> test = {"first", "second", "third"};
+    Enigma first("1", EASY_ENIGMA, 3, test);
+    Enigma second("2", MEDIUM_ENIGMA);
+    Enigma third("3", HARD_ENIGMA);
+
+    room11.addEnigma(first);
+    room11.addEnigma(second);
+    room11.addEnigma(third);
+
+    ASSERT_NO_THROW(room11.removeEnigma(first));
+    ASSERT_NO_THROW(room11.removeEnigma(second));
+    ASSERT_THROWS(EscapeRoomEnigmaNotFoundException, room11.removeEnigma(second));
+    ASSERT_NO_THROW(room11.removeEnigma(third));
+    ASSERT_THROWS(EscapeRoomNoEnigmasException, room21.removeEnigma(first));
+}
+
+void ERWGetHardestEnigma(){
+    EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
+    EscapeRoomWrapper room21((char *)"room21", 1);
+
+    std::set<string> test = {"first", "second", "third"};
+    Enigma first("1", EASY_ENIGMA, 3, test);
+    Enigma second("2", MEDIUM_ENIGMA);
+    Enigma third("3", HARD_ENIGMA);
+    Enigma forth("4", HARD_ENIGMA);
+
+    room11.addEnigma(first);
+    room11.addEnigma(second);
+    room11.addEnigma(third);
+    room11.addEnigma(forth);
+
+    ASSERT_THROWS(EscapeRoomNoEnigmasException, room21.getHardestEnigma());
+
+    room21.addEnigma(first);
+    room21.addEnigma(second);
+
+    ASSERT_EQUALS(second, room21.getHardestEnigma());
+    ASSERT_EQUALS(third, room11.getHardestEnigma());
+
+    room21.removeEnigma(first);
+    room21.removeEnigma(second);
+
+    ASSERT_THROWS(EscapeRoomNoEnigmasException, room21.getHardestEnigma());
+}
+
+void ERWGetAllEnigmas(){
+    EscapeRoomWrapper room11((char *)"room11", 90, 5, 2);
+    EscapeRoomWrapper room21((char *)"room21", 1);
+
+    std::set<string> test = {"first", "second", "third"};
+    Enigma first("1", EASY_ENIGMA, 3, test);
+    Enigma second("2", MEDIUM_ENIGMA);
+    Enigma third("3", HARD_ENIGMA);
+    Enigma forth("4", HARD_ENIGMA);
+
+    room11.addEnigma(first);
+    room11.addEnigma(second);
+    room11.addEnigma(third);
+    room11.addEnigma(forth);
+
+    room21.addEnigma(first);
+    room21.addEnigma(second);
+
+    std::vector<Enigma> vector11 = {first, second, third, forth};
+    std::vector<Enigma> vector21 = {first, second};
+
+    ASSERT_EQUALS(vector11, room11.getAllEnigmas());
+    ASSERT_EQUALS(vector21, room21.getAllEnigmas());
+    ASSERT_NOT_EQUAL(vector11, room21.getAllEnigmas());
+
+    room11.removeEnigma(first);
+
+    ASSERT_NOT_EQUAL(vector11, room11.getAllEnigmas());
+}
 
 
 int main() {
     RUN_TEST(ERWTestsBasic);
-    RUN_TEST(equal);
-    RUN_TEST(not_equal);
-    RUN_TEST(less_than);
-    RUN_TEST(greater_than);
-    RUN_TEST(print);
-    RUN_TEST(check_level);
-    RUN_TEST(check_getName);
-    RUN_TEST(check_getMaxTime);
-    RUN_TEST(check_getMaxParticipants);
-    RUN_TEST(check_rate);
+    RUN_TEST(ERWequal);
+    RUN_TEST(ERWNotEqual);
+    RUN_TEST(ERWLessThan);
+    RUN_TEST(ERWGreaterThan);
+    RUN_TEST(ERWPrint);
+    RUN_TEST(ERWLevel);
+    RUN_TEST(ERWGetName);
+    RUN_TEST(ERWGetMaxTime);
+    RUN_TEST(ERWGetMaxParticipants);
+    RUN_TEST(ERWRate);
+    RUN_TEST(ERWAddRemoveEnigma);
+    RUN_TEST(ERWGetHardestEnigma);
+    RUN_TEST(ERWGetAllEnigmas);
     std::cout << "All Done!" << std::endl;
 }
 

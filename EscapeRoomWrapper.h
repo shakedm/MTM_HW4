@@ -5,6 +5,9 @@
 #include <iostream>
 #include "EscapeRoom.h"
 
+#include "Enigma.h"
+#include <vector>
+
 
 namespace mtm{
 namespace escaperoom {
@@ -92,6 +95,14 @@ using std::string;
         //Function returns the number of participants allowed in the EscapeRoom.
         //
         int getMaxParticipants() const;
+
+        void addEnigma(const Enigma& enigma);
+
+        void removeEnigma(const Enigma& enigma);
+
+        Enigma getHardestEnigma();
+
+        std::vector<Enigma>& getAllEnigmas();
 
     };
 

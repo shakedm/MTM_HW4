@@ -10,8 +10,7 @@
 
 namespace mtm{
     namespace escaperoom{
-class ScaryRoom : EscapeRoom {
-    EscapeRoom escapeRoom;
+class ScaryRoom : public EscapeRoomWrapper {
     int AgeLimit;
     int NumOfScaryEnigmas;
 public:
@@ -24,6 +23,10 @@ public:
     ScaryRoom(char* name, const int& escapeTime, const int& level,
               const int& maxParticipants, const int& ageLimit,
               const int& numOfScaryEnigmas);
+
+    ~ScaryRoom()= default;
+
+    ScaryRoom&operator=(const ScaryRoom room)= default;
 
     void setNewAgeLimit(const int& ageLimit);
 

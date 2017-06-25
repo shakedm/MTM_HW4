@@ -6,5 +6,5 @@ set(CMAKE_C_FLAGS "-std=c11 -Wall -Werror -pedantic-errors -DNDEBUG")
 
 
 set(SOURCE_FILES  EscapeRoom.c EscapeRoom.h escapeRoomWrapper.cpp EscapeRoomWrapper.h
-        Enigma.cpp Enigma.h Company.h mtmtest.h Exceptions.h ScaryRoom.cpp ScaryRoom.h)
+        Enigma.cpp Enigma.h Company.h mtmtest.h Exceptions.h ScaryRoom.cpp ScaryRoom.h ScaryRoomTest.cpp)
 add_executable(ex4_wet ${SOURCE_FILES})

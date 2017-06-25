@@ -12,9 +12,10 @@
 namespace mtm{
 namespace escaperoom {
 using std::string;
+using std::vector;
     class EscapeRoomWrapper {
         EscapeRoom escaperoom;
-
+        vector<Enigma> roomEnigma;
         static double calculatePower(const int& maxTime, const int& level,
                              const int& maxParticipants);
     public:

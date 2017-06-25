@@ -98,6 +98,34 @@ namespace escaperoom{
         this->escaperoom=room1;
         return *this;
     }
+    void EscapeRoomWrapper::addEnigma(const Enigma& enigma){
+        roomEnigma.push_back(enigma);
+    }
+    void EscapeRoomWrapper::removeEnigma(const Enigma& enigma){
+        if (roomEnigma.size()==0)
+            throw EscapeRoomNoEnigmasException();
+        for (int i = 0; i <roomEnigma.size() ; ++i) {
+            if (enigma==roomEnigma.at((unsigned int)i)){
+                roomEnigma.erase(roomEnigma.begin()+i);
+                return;
+            }
+        }
+        throw EscapeRoomEnigmaNotFoundException();
+    }
+    Enigma EscapeRoomWrapper::getHardestEnigma() {
 
+        if(roomEnigma.size()==0)
+            throw EscapeRoomNoEnigmasException();
+        Enigma hardest=roomEnigma.front();
+        for (unsigned int i = 1; i < roomEnigma.size(); ++i) {
+
+            if(roomEnigma.at(i) > hardest)
+                hardest=roomEnigma.at(i);
+        }
+        return hardest;
+    }
+    std::vector<Enigma>& EscapeRoomWrapper::getAllEnigmas(){
+        return roomEnigma;
+    }
 }
 }

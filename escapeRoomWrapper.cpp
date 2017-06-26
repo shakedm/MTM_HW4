@@ -47,7 +47,9 @@ namespace escaperoom{
     }
 
     std::string EscapeRoomWrapper::getName() const {
-        string name(roomGetName(escaperoom));
+        char* name_copy = roomGetName(escaperoom);
+        string name(name_copy);
+        free(name_copy);
         return name;
     }
 
@@ -104,7 +106,7 @@ namespace escaperoom{
     void EscapeRoomWrapper::removeEnigma(const Enigma& enigma){
         if (roomEnigma.size()==0)
             throw EscapeRoomNoEnigmasException();
-        for (int i = 0; i <roomEnigma.size() ; ++i) {
+        for (int i = 0; i < (int)roomEnigma.size() ; ++i) {
             if (enigma==roomEnigma.at((unsigned int)i)){
                 roomEnigma.erase(roomEnigma.begin()+i);
                 return;

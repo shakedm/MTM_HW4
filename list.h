@@ -7,7 +7,7 @@
 #include "Exceptions.h"
 
 using namespace std;
-using namespace mtm::ListExceptions;
+using namespace mtm::ListExceptions; //needed for exeptions.
 
 
 template <typename T>
@@ -35,6 +35,7 @@ class List {
 
     public:
 
+        //default assignment operand.
         Node &operator=(const Node &node) = default;
 
     };
@@ -109,37 +110,89 @@ public:
      */
     bool operator!=(const List &list) const;
 
+    /*!
+     * class iterator. contains a pointer to current node & a pointer to the
+     * list for compare porpeses.
+     */
     class Iterator {
-        Node *current;
-        const List<T> *list;
+        Node *current; //points to the current link in the list.
+        const List<T> *list; //points to the list the iterator belongs to.
 
+        /*!
+         * the basic c'tor. constructs a new iterator that points to the given
+         * node.
+         * @param list - the list that the iterator points to
+         * @param node - the lists node that the iterator points to.
+         */
         Iterator(const List<T> *list, Node *node) :
                 current(node),
                 list(list) {}
 
+        //list needs access to private fields.
         friend class List<T>;
 
     public:
 
         //class Node;
 
+        /*!
+         * Dereference. this operator returns the data (of T type) that the
+         * iterator points to.
+         * @return - the data field of the current node.
+         */
         T& operator*() const;
 
+        /*!
+         * Advances the iterator by one node (by action end, iterator points to
+         * the next node of the list)
+         * @return - the next node in the list.
+         */
         Iterator &operator++();
 
+        /*!
+         * Advances the iterator by one node (by action end, iterator  points to
+         * the next node of the list, but return val does not reflect it until
+         * line end)
+         * @return - pre-action iterator.
+         */
         Iterator operator++(int);
 
+        /*!
+         * Retracts the iterator by one node (by action end, iterator points to
+         * the previous node of the list)
+         * @return - the previous node in the list.
+         */
         Iterator &operator--();
 
+        /*!
+         * Retracts the iterator by one node (by action end, iterator  points to
+         * the previous node of the list, but return val does not reflect it
+         * until line end)
+         * @return - pre-action iterator.
+         */
         Iterator operator--(int);
 
+        /*!
+         * compare operator. checks if the iterator are equal. two iterators
+         * would be considered equal if both are pointing to the same node
+         * (or to list end) at the same list.
+         * @param iterator - the right hand operand to compare.
+         * @return true  - if the iterators are equal,
+         *          false - otherwise.
+         */
         bool operator==(const Iterator &iterator) const;
 
+        /*!
+         * compare operator. checks if the iterator are NOT equal.
+         * @param iterator - the right hand operand to compare.
+         * @return the not of the == operator result.
+         */
         bool operator!=(const Iterator &iterator) const;
 
-
+        //default copy operand. fields are basic pointers.
         Iterator(const Iterator &iterator) = default;
 
+        //default assignment operand.
         Iterator &operator=(const Iterator &iterator) = default;
 
     };

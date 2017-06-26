@@ -4,6 +4,7 @@
 #define EX4_WET_SCARYROOM_H
 
 #include "EscapeRoomWrapper.h"
+#include "Exceptions.h"
 
 
 

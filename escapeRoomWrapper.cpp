@@ -1,6 +1,5 @@
 
 #include "EscapeRoomWrapper.h"
-#include "Exceptions.h"
 
 
 namespace mtm {

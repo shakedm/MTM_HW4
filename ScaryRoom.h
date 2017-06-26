@@ -26,7 +26,7 @@ public:
 
     ~ScaryRoom()= default;
 
-    ScaryRoom&operator=(const ScaryRoom room)= default;
+    ScaryRoom&operator=(const ScaryRoom room);
 
     void setNewAgeLimit(const int& ageLimit);
 
@@ -35,7 +35,7 @@ public:
     int getAgeLimit() const ;
 
     std::ostream& operator<<(std::ostream& output, const ScaryRoom& room);
-};
+    };
 }
 }
 #endif //EX4_WET_SCARYROOM_H

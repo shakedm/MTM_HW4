@@ -28,7 +28,7 @@ void ScaryRoom::setNewAgeLimit(const int &ageLimit) {
 }
 
 std::ostream& operator<<(std::ostream &output, const ScaryRoom& room){
-    return output << "Scary room: " << room.getName() << " (" <<
+    return output << "Scary Room: " << room.getName() << " (" <<
                 room.getMaxTime() << "/" << room.level() << "/" <<
                 room.getMaxParticipants() << "/"<< room.getAgeLimit()<< ")";
 }

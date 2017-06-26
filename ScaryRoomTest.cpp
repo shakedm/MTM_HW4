@@ -1,9 +1,9 @@
 #include "ScaryRoom.h"
 #include "mtmtest.h"
 #include "Exceptions.h"
-#include <iostream>
 
-using std::ostream;
+
+
 using mtm::escaperoom::ScaryRoom;
 using namespace mtm::escaperoom;
 static void SCRbasic(){
@@ -49,10 +49,10 @@ static void SCRprint(){
     ScaryRoom room4((char*)"room4",50,8,1,1,1);
     ScaryRoom room5((char*)"room5",31,6,6,6,6);
 
-    ASSERT_PRINT("Scary room: room (30/2/20/10)",room);
-    ASSERT_PRINT("Scary room: room1 (40/3/10/10)",room1);
-    ASSERT_PRINT("Scary room: room4 (50/8/1/1)",room4);
-    ASSERT_PRINT("Scary room: room5 (31/6/6/6)",room5);
+    ASSERT_PRINT("Scary Room: room (30/2/20/10)",room);
+    ASSERT_PRINT("Scary Room: room1 (40/3/10/10)",room1);
+    ASSERT_PRINT("Scary Room: room4 (50/8/1/1)",room4);
+    ASSERT_PRINT("Scary Room: room5 (31/6/6/6)",room5);
 }
 
 static void SCRIncEnigma(){

@@ -19,7 +19,7 @@ class List {
 
         /*!
          * the basic c'tor. constructs a node that contains the basic data.
-         * @param data - the actuall type & data of the speficic link in the
+         * @param data - the actuall type & data of the specific link in the
          * list
          */
         Node(const T &data) :
@@ -280,9 +280,9 @@ List<T>& List<T>::operator=(const List& list) {
     for (int l = 0; l < length; ++l) {
         this->remove(this->begin());
     }
-    Node* current = list.list_head;
     //list_head = current;
-    for(current; current != list.list_end; current = current->next){
+    for(Node* current = list.list_head; current != list.list_end;
+        current = current->next){
         insert(current->data);
     }
     //list_end = current;

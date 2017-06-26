@@ -1,18 +1,20 @@
 #include "ScaryRoom.h"
 #include "mtmtest.h"
 #include "Exceptions.h"
+#include <iostream>
 
-using mtm::escaperoom::ScaryRoom
-using mtm::escaperoom::ScaryRoomIllegalAgeLimit
-void SCRbasic(){
+using std::ostream;
+using mtm::escaperoom::ScaryRoom;
+using namespace mtm::escaperoom;
+static void SCRbasic(){
     ScaryRoom room1((char*)"room1",30,1,2,18,4);
     ScaryRoom room2((char*)"room2",90,10,20,20,20);
     ScaryRoom room3((char*)"room3",89,9,10000,100,2000);
     ScaryRoom room4((char*)"room4",50,8,1,1,1);
     ScaryRoom room5((char*)"room5",31,6,6,6,6);
-    ScaryRoom room6((char*)"illegal",30,1,2,-1,2);
+    //ScaryRoom room6((char*)"illegal",30,1,2,-1,2);
 
-    ASSERT_EQUALS(room3.getAgeLimit(),18);
+    ASSERT_EQUALS(room3.getAgeLimit(),100);
     room5=room4;
     room3=room4;
     ASSERT_EQUALS(room3.getAgeLimit(),1);
@@ -24,9 +26,9 @@ void SCRbasic(){
     ASSERT_EQUALS(room5.getMaxTime(),50);
     ASSERT_EQUALS(room1.level(),1);
     ASSERT_EQUALS(room1.getMaxTime(),30);
-    ASSERT_NOT_EQUAL(room6.getAgeLimit(),-1);//could be a problem
+    //ASSERT_NOT_EQUAL(room6.getAgeLimit(),-1);//could be a problem
 }
-void SCRageLimit(){
+static void SCRageLimit(){
     ScaryRoom room1((char*)"room1",30,1,2,18,4);
     ScaryRoom room2((char*)"room2",90,10,20,20,20);
     ScaryRoom room3((char*)"room3",89,9,10000,100,2000);
@@ -41,12 +43,11 @@ void SCRageLimit(){
 
 }
 
-void SCRprint(){
+static void SCRprint(){
     ScaryRoom room((char*)"room",30,2,20,10,2);
     ScaryRoom room1((char*)"room1",40,3,10,10,10);
     ScaryRoom room4((char*)"room4",50,8,1,1,1);
     ScaryRoom room5((char*)"room5",31,6,6,6,6);
-
 
     ASSERT_PRINT("Scary room: room (30/2/20/10)",room);
     ASSERT_PRINT("Scary room: room1 (40/3/10/10)",room1);
@@ -54,8 +55,15 @@ void SCRprint(){
     ASSERT_PRINT("Scary room: room5 (31/6/6/6)",room5);
 }
 
+static void SCRIncEnigma(){
+    ScaryRoom room((char*)"room",30,2,20,10,2);
+    ASSERT_NO_THROW(room.incNumberOfScaryEnigmas());
+    ASSERT_NO_THROW(room.incNumberOfScaryEnigmas());
+}
+
 int main(){
     RUN_TEST(SCRbasic);
     RUN_TEST(SCRageLimit);
     RUN_TEST(SCRprint);
+    RUN_TEST(SCRIncEnigma);
 }

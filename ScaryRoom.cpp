@@ -1,6 +1,6 @@
 
 #include "ScaryRoom.h"
-
+#include "Exceptions.h"
 
 namespace mtm{
 namespace escaperoom{
@@ -22,23 +22,23 @@ int ScaryRoom::getAgeLimit() const {
 }
 
 void ScaryRoom::setNewAgeLimit(const int &ageLimit) {
-    if(ageLimit)
+    if(ageLimit<=0)
         throw ScaryRoomIllegalAgeLimit();
     AgeLimit=ageLimit;
 }
 
-std::ostream& ScaryRoom::operator<<(std::ostream &output,
-                                    const ScaryRoom &room) {
-    return output << "Scary room: " << getName() << " (" <<
-                getMaxTime() << "/" << level() << "/" <<
-                getMaxParticipants() << "/"<< room.getAgeLimit()<< ")";
+std::ostream& operator<<(std::ostream &output, const ScaryRoom& room){
+    return output << "Scary room: " << room.getName() << " (" <<
+                room.getMaxTime() << "/" << room.level() << "/" <<
+                room.getMaxParticipants() << "/"<< room.getAgeLimit()<< ")";
 }
 
 
     ScaryRoom& ScaryRoom::operator=(const ScaryRoom room){
+        EscapeRoomWrapper::operator=(room);
         this->AgeLimit=room.AgeLimit;
         this->NumOfScaryEnigmas=room.NumOfScaryEnigmas;
-        //what to do on father class?
+        return *this;
     }
 }
 }

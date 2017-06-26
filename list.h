@@ -44,7 +44,7 @@ class List {
     Node  *list_head; //the first node in the list.
     Node  *list_end; //NULL node, signefy the list's end.
 
-    //Iterator<T> list_iterator;
+
 
     static const int HEAD_INDEX = 0; //C++ NULL
 
@@ -356,7 +356,6 @@ template <class T>
 void List<T>::remove(Iterator iterator) {
     if (size == 0 || this != iterator.list){
         throw ElementNotFound();
-        return;
     }
     Node *current = list_head;
     while (current->data != iterator.current->data && current != list_end){

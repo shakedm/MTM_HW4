@@ -35,4 +35,13 @@ static void KDSRoperator(){
 
 }
 
-static
+static void KDSsetAgeLimit(){
+    KidsRoom room((char*)"room",30,2,2,2);
+    KidsRoom room1((char*)"room1",90,10,10,10);
+    KidsRoom room2((char*)"room2",50,5,5,5);
+
+    ASSERT_EQUALS(2,room.getAgeLimit());
+    ASSERT_EQUALS(10,room1.getAgeLimit());
+    ASSERT_EQUALS(5,room2.getAgeLimit());
+
+}

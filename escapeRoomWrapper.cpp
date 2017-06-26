@@ -56,7 +56,7 @@ namespace escaperoom{
     //     "<name> (<maxTime>/<level>/<maxParticipants>)"
     std::ostream& operator<<(std::ostream& output,
                                     const EscapeRoomWrapper& room){
-        return output << roomGetName(room.escaperoom) << " (" <<
+        return output << room.getName() << " (" <<
                          roomGetMaxTime(room.escaperoom)
                       << "/" << getLevel(room.escaperoom) << "/" <<
                          roomGetMaxParticipants(room.escaperoom) << ")";

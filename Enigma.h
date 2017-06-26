@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "Exceptions.h"
 
 using std::set;
 using std::string;

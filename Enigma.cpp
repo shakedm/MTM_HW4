@@ -13,11 +13,11 @@ namespace mtm {
                 numOfElements(numOfElements) {
         }*/
 
-        Enigma::Enigma(const std::string& name, const Difficulty& difficulty,
+        Enigma::Enigma(const string& name, const Difficulty& difficulty,
                const int& numOfElements, const set<string>& elements):
-                name(std::string(name)),
                 difficulty(difficulty),
                 numOfElements(numOfElements),
+                name(name),
                 elements(elements){
             int temp_size = (int)elements.size();
             if (numOfElements != temp_size){
@@ -25,10 +25,10 @@ namespace mtm {
             }
         }
 
-        Enigma::Enigma(const std::string& name, const Difficulty& difficulty):
-                name(std::string(name)),
-                elements(),
-                difficulty(difficulty){
+        Enigma::Enigma(const string& name, const Difficulty& difficulty):
+                difficulty(difficulty),
+                name(name),
+                elements(){
             numOfElements = NONE;
         }
 

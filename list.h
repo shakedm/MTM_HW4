@@ -7,39 +7,46 @@
 #include "Exceptions.h"
 
 using namespace std;
-using namespace mtm::ListExceptions;
+using namespace mtm::ListExceptions; //needed for exeptions.
 
 
-template <class T>
+template <typename T>
 class List {
     class Node {
-        T data;
-        Node *next;
-        Node *previous;
+        T data; //the data (of a type)
+        Node *next; //the next link in the list.
+        Node *previous; //the prev. link in the list.
 
+        /*!
+         * the basic c'tor. constructs a node that contains the basic data.
+         * @param data - the actuall type & data of the speficic link in the
+         * list
+         */
         Node(const T &data) :
                 data(data),
                 next(NULL),
                 previous(NULL) {};
 
+        //List needs access to private fields.
         friend class List<T>;
 
+        //Iterator needs access to private fields.
         friend class Iterator;
 
     public:
 
+        //default assignment operand.
         Node &operator=(const Node &node) = default;
 
     };
 
-    int size;
-    Node  *list_head;
-    Node  *list_end;
+    int size; //the number of valid nodes in the list.
+    Node  *list_head; //the first node in the list.
+    Node  *list_end; //NULL node, signefy the list's end.
 
     //Iterator<T> list_iterator;
 
     static const int HEAD_INDEX = 0; //C++ NULL
-    static const int END_INDEX = 0; //C++ NULL
 
 public:
 
@@ -86,7 +93,7 @@ public:
      *                   second param.
      * @param compare - the compare function
      */
-    template<class Compare>
+    template <typename Compare>
     void sort(const Compare &compare);
 
     /*!
@@ -103,37 +110,89 @@ public:
      */
     bool operator!=(const List &list) const;
 
+    /*!
+     * class iterator. contains a pointer to current node & a pointer to the
+     * list for compare porpeses.
+     */
     class Iterator {
-        const Node *current;
-        const List<T> *list;
+        Node *current; //points to the current link in the list.
+        const List<T> *list; //points to the list the iterator belongs to.
 
-        Iterator(const List<T> *list, const Node *node) :
+        /*!
+         * the basic c'tor. constructs a new iterator that points to the given
+         * node.
+         * @param list - the list that the iterator points to
+         * @param node - the lists node that the iterator points to.
+         */
+        Iterator(const List<T> *list, Node *node) :
                 current(node),
                 list(list) {}
 
+        //list needs access to private fields.
         friend class List<T>;
 
     public:
 
         //class Node;
 
-        const T &operator*() const;
+        /*!
+         * Dereference. this operator returns the data (of T type) that the
+         * iterator points to.
+         * @return - the data field of the current node.
+         */
+        T& operator*() const;
 
+        /*!
+         * Advances the iterator by one node (by action end, iterator points to
+         * the next node of the list)
+         * @return - the next node in the list.
+         */
         Iterator &operator++();
 
+        /*!
+         * Advances the iterator by one node (by action end, iterator  points to
+         * the next node of the list, but return val does not reflect it until
+         * line end)
+         * @return - pre-action iterator.
+         */
         Iterator operator++(int);
 
+        /*!
+         * Retracts the iterator by one node (by action end, iterator points to
+         * the previous node of the list)
+         * @return - the previous node in the list.
+         */
         Iterator &operator--();
 
+        /*!
+         * Retracts the iterator by one node (by action end, iterator  points to
+         * the previous node of the list, but return val does not reflect it
+         * until line end)
+         * @return - pre-action iterator.
+         */
         Iterator operator--(int);
 
+        /*!
+         * compare operator. checks if the iterator are equal. two iterators
+         * would be considered equal if both are pointing to the same node
+         * (or to list end) at the same list.
+         * @param iterator - the right hand operand to compare.
+         * @return true  - if the iterators are equal,
+         *          false - otherwise.
+         */
         bool operator==(const Iterator &iterator) const;
 
+        /*!
+         * compare operator. checks if the iterator are NOT equal.
+         * @param iterator - the right hand operand to compare.
+         * @return the not of the == operator result.
+         */
         bool operator!=(const Iterator &iterator) const;
 
-
+        //default copy operand. fields are basic pointers.
         Iterator(const Iterator &iterator) = default;
 
+        //default assignment operand.
         Iterator &operator=(const Iterator &iterator) = default;
 
     };
@@ -178,7 +237,7 @@ public:
      * @return the iterator value of the first item that fits.
      * if no items fit, returns the list end.
      */
-    template<class Predicate>
+    template <typename Predicate>
     Iterator find(const Predicate &predicate);
 
 };
@@ -186,17 +245,17 @@ public:
 template <class T>
 List<T>::List() :
         size(HEAD_INDEX),
-        list_head (HEAD_INDEX),
-        list_end (END_INDEX)
+        list_head (NULL),
+        list_end (NULL)
         /*list_iterator(this, list_head)*/{}
 
 
 template <class T>
 List<T>::List(const List& list) :
-        size(list.getSize()),
-        list_head(list.list_head),
-        list_end(END_INDEX){
-    for(Node *current = list.list_head; current != END_INDEX;
+        size(HEAD_INDEX),
+        list_head(NULL),
+        list_end(NULL){
+    for(Node *current = list.list_head; current != NULL;
         current = current->next){
         insert(current->data);
     }
@@ -205,7 +264,7 @@ List<T>::List(const List& list) :
 template <class T>
 List<T>::~List() {
     Node *node = list_head;
-    while (node != END_INDEX){
+    while (node != NULL){
         Node *next = node->next;
         delete node;
         node = next;
@@ -217,11 +276,13 @@ List<T>& List<T>::operator=(const List& list) {
     if (this == &list){
         return *this;
     }
-    size = list.size;
+    int length = this->size;
+    for (int l = 0; l < length; ++l) {
+        this->remove(this->begin());
+    }
     Node* current = list.list_head;
     //list_head = current;
-    for(current; current != list.list_end;
-        current = current->next){
+    for(current; current != list.list_end; current = current->next){
         insert(current->data);
     }
     //list_end = current;
@@ -245,12 +306,12 @@ typename List<T>::Iterator List<T>::end() const {
 
 template <class T>
 void List<T>::insert(const T &data, Iterator iterator) {
-    if(iterator == this->end()){
-        insert(iterator.current->data);
+    if(iterator.current == list_end){
+        insert(data);
         return;
     }
     Node *current = list_head;
-    while (current != &iterator && current != list_end){
+    while (current != iterator.current && current != list_end){
         current = current->next;
     }
     if (current == list_end){
@@ -258,14 +319,17 @@ void List<T>::insert(const T &data, Iterator iterator) {
     }
     Node *newNode = new Node(data);
     newNode->next = current;
-    if(current->previous != HEAD_INDEX){
+    if(current->previous != NULL){
         Node *previous = current->previous;
         previous->next = newNode;
         newNode->previous = previous;
     } else {
+        newNode->next = list_head;
+        list_head->previous = newNode;
         list_head = newNode;
-        newNode->previous = HEAD_INDEX;
+        newNode->previous = NULL;
     }
+    current->previous = newNode;
     size++;
 }
 
@@ -274,8 +338,8 @@ void List<T>::insert(const T &data) {
     Node *newNode = new Node(data);
     if(size == 0){
         list_head = newNode;
-        newNode->previous = HEAD_INDEX;
-        newNode->next = END_INDEX;
+        newNode->previous = NULL;
+        newNode->next = NULL;
         size++;
         return;
     }
@@ -292,6 +356,7 @@ template <class T>
 void List<T>::remove(Iterator iterator) {
     if (size == 0 || this != iterator.list){
         throw ElementNotFound();
+        return;
     }
     Node *current = list_head;
     while (current->data != iterator.current->data && current != list_end){
@@ -300,14 +365,21 @@ void List<T>::remove(Iterator iterator) {
     if(current == list_end){
         throw ElementNotFound();
     }
-    (current->previous)->next = current->next;
-    (current->next)->previous = current->previous;
-    delete(*current);
+    if(iterator.current->previous != NULL){
+        (current->previous)->next = current->next;
+    }else {
+        list_head = current->next;
+    }
+    if(iterator.current->next != NULL){
+        (current->next)->previous = current->previous;
+    }
+    delete(current);
     size--;
 }
 
-template <class T, class Predicate>
-typename List<T>::Iterator List<T>::find(const Predicate &predicate) {
+template <typename T>
+template <typename Predicate>
+typename List<T>::Iterator List<T>::find(const Predicate &predicate){
     for(Node *current = list_head; current != NULL; current = current->next){
         if(predicate(current->data)){
             return Iterator(this, current);
@@ -316,29 +388,43 @@ typename List<T>::Iterator List<T>::find(const Predicate &predicate) {
     return this->end();
 }
 
-template <class T, class Compare>
-void List<T>::sort(const Compare &compare) {
+template <typename T>
+template <typename Compare>
+void List<T>::sort(const Compare &compare){
     if(size == 0 || size == 1){ //no sort needed
         return;
     }
     Node *current = list_head;
-    while (current->next != list_end){
-        if(compare(current->data, (current->next)->data) == false){
-            //switch places:
-            if(current->previous != list_head){
-                (current->previous)->next = current->next;
-                (current->next)->previous = current->previous;
-            } else {
-                (current->next)->previous = HEAD_INDEX;
+    List<T> sorted;
+    bool added = false;
+    sorted.insert(list_head->data);
+    current = current->next;
+    while (current){
+        added = false;
+        Node* other = sorted.list_head;
+        for (int i = 0; i < sorted.size; ++i) {
+            if(compare(current->data, other->data) == true){
+                Iterator insert(&sorted, other);
+                sorted.insert(current->data, insert);
+                added = true;
+                break;
             }
-            current->previous = current->next;
-            current->next = (current->next)->next;
-            (current->next)->next = current;
-
-            //return to head every time a switch was made
-            current = list_head;
+            other = other->next;
+        }
+        if(!added){
+            sorted.insert(current->data);
+        }
+        if(current->next != NULL){
+            current = current->next;
+        } else {
+            break;
         }
     }
+    int length = this->size;
+    for (int l = 0; l < length; ++l) {
+        this->remove(this->begin());
+    }
+    *this = sorted;
 }
 
 template <class T>
@@ -346,15 +432,23 @@ bool List<T>::operator==(const List& list) const{
     bool same = (this->size == list.size);
     if (same){
         Node *other = list.list_head;
-        for (Node *current = list_head; current != list_end;
-             current = current->next){
+        Node *current = list_head;
+        while (current){
+            assert(other != list.list_end); //we checked that the list are
+                                            // of the same size.
             if (other->data != current->data){
                 same = false;
                 break;
             }
-            other = other->next;
-            assert(other != list.list_end); //we checked that the list are
-                                            // of the same size.
+            if(other->next != NULL){
+                other = other->next;
+                current = current->next;
+            } else if (current->next != NULL){
+                same = false;
+                break;
+            } else{
+                current = NULL;
+            }
         }
     }
     return same;
@@ -367,16 +461,18 @@ bool List<T>::operator!=(const List& list) const{
 
 
 template <class T>
-const T& List<T>::Iterator::operator*() const {
+T& List<T>::Iterator::operator*() const {
     if(current == NULL){
-
+        throw ElementNotFound();
     }
     return current->data;
 }
 
 template <class T>
 typename List<T>::Iterator& List<T>::Iterator::operator++() {
-    current = current->next;
+    if(current != NULL){
+        current = current->next;
+    }
     return *this;
 }
 
@@ -389,7 +485,9 @@ typename List<T>::Iterator List<T>::Iterator::operator++(int) {
 
 template <class T>
 typename List<T>::Iterator& List<T>::Iterator::operator--() {
-    current = current->previous;
+    if(current->previous != NULL){
+        current = current->previous;
+    }
     return *this;
 }
 
@@ -402,12 +500,15 @@ typename List<T>::Iterator List<T>::Iterator::operator--(int) {
 
 template <class T>
 bool List<T>::Iterator::operator==(const Iterator& iterator) const{
-    if(current != this->list->list_end &&
-            iterator.current != iterator.list->list_end){
+    if(current == this->list->list_end &&
+            iterator.current == iterator.list->list_end){
+        return (list == iterator.list);
+    } else if (current != this->list->list_end &&
+              iterator.current != iterator.list->list_end){
         return (list == iterator.list &&
                 current->data == iterator.current->data);
-    } else{
-        return (list == iterator.list);
+    } else {
+        return false;
     }
 }
 

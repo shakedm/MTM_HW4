@@ -1,5 +1,4 @@
 #include "KidsRoom.h"
-#include "Exceptions.h"
 
 
 namespace mtm{

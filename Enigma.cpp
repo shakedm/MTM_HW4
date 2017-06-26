@@ -1,5 +1,4 @@
 #include "Enigma.h"
-#include "Exceptions.h"
 
 #define NONE 0
 

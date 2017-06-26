@@ -28,7 +28,7 @@ namespace mtm{
                                            const KidsRoom& room){
             return output << "Kids Room: " << room.getName() << " (" <<
                    room.getMaxTime() << "/" << room.level() << "/" <<
-                   room.getMaxParticipants() << room.getAgeLimit() << ")";
+                   room.getMaxParticipants() << "/"<< room.getAgeLimit() << ")";
         }
 
     }

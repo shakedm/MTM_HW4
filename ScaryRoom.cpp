@@ -1,6 +1,6 @@
 
 #include "ScaryRoom.h"
-#include "Exceptions.h"
+
 
 namespace mtm{
 namespace escaperoom{

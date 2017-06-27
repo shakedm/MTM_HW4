@@ -82,9 +82,9 @@ void EnigmaPrint(){
 
     Enigma assigned_enigma = third;
 
-    ASSERT_PRINT("1 (EASY_ENIGMA) 3", first);
-    ASSERT_PRINT("2 (MEDIUM_ENIGMA) 0", second_copy);
-    ASSERT_PRINT("3 (HARD_ENIGMA) 0", assigned_enigma);
+    ASSERT_PRINT("1 (0) 3", first);
+    ASSERT_PRINT("2 (1) 0", second_copy);
+    ASSERT_PRINT("3 (2) 0", assigned_enigma);
 }
 
 void EnigmaAreEqualyComplex(){

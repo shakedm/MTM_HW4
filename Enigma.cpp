@@ -78,19 +78,7 @@ namespace mtm {
         }
         //<name> (<Difficulty>) <number of items>
         std::ostream& operator<<(std::ostream& output, const Enigma& enigma){
-            string difficulty_string;
-            switch(enigma.difficulty){
-                case EASY_ENIGMA:
-                    difficulty_string = "EASY_ENIGMA";
-                    break;
-                case MEDIUM_ENIGMA:
-                    difficulty_string = "MEDIUM_ENIGMA";
-                    break;
-                case HARD_ENIGMA:
-                    difficulty_string = "HARD_ENIGMA";
-                    break;
-            }
-            return output << enigma.name << " (" << difficulty_string << ") "
+            return output << enigma.name << " (" << enigma.difficulty << ") "
                           << enigma.numOfElements;
         }
     }

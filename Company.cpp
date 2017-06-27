@@ -141,11 +141,12 @@ namespace mtm{
                     throw CompanyRoomNotFoundException();
                 }
                 removeFrom->removeEnigma(enigma);
-            } catch (EscapeRoomNoEnigmasException){
-                throw CompanyRoomHasNoEnigmasException();
-            } catch (EscapeRoomEnigmaNotFoundException){
+            } catch (EscapeRoomEnigmaNotFoundException) {
                 throw CompanyRoomEnigmaNotFoundException();
-            } catch (CompanyRoomNotFoundException){
+            }catch (EscapeRoomNoEnigmasException){
+                throw CompanyRoomHasNoEnigmasException();
+            }
+             catch (CompanyRoomNotFoundException){
                 throw CompanyRoomNotFoundException();
             }
         }

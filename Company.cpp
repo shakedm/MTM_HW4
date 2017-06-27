@@ -1,4 +1,7 @@
 #include "Company.h"
+#include <exception>
+#include <iostream>
+using  namespace std;
 
 namespace mtm{
     namespace escaperoom {
@@ -11,7 +14,14 @@ namespace mtm{
 
         void Company::createRoom(char *name, const int &escapeTime,
                                  const int &level,
-                                 const int &maxParticipants) {} //Adi
+                                 const int &maxParticipants) {
+            EscapeRoomWrapper room(name, escapeTime, level, maxParticipants);
+            try {
+                rooms.insert(&room);
+            } catch (exception& exception){
+                throw
+            }
+        }
 
         void Company::createScaryRoom(char *name, const int &escapeTime,
                                       const int &level,

@@ -19,6 +19,10 @@ namespace mtm{
         }RoomType;
 
         class Company{
+            string name; //the company's name
+            string phoneNumber; //the company's phone number
+            set<EscapeRoomWrapper*> rooms; //all the rooms the company has.
+
         public:
 
             //// Constructs a new Company with the specified data.

@@ -3,6 +3,7 @@
 #include "Exceptions.h"
 
 using namespace mtm::escaperoom;
+using std::cout;
 
 static void CompanyBasic(){
     Company company("1","054-45959151");
@@ -82,9 +83,40 @@ static void CompanyItem(){
     Enigma enigma1("q",4);
     company.createRoom("room",60,6,8);
     company.createRoom("room1",90,4,3);
-    ASSERT_THROWS(,company.addItem(company.getRoomByName("room2"),enigma))
+    company.addEnigma(company.getRoomByName("room1",enigma));
+    ASSERT_THROWS(CompanyRoomNotFoundException,company.addItem
+            (company.getRoomByName("room2"),enigma,"item"));
+    ASSERT_THROWS(CompanyRoomEnigmaNotFoundException,company.addItem
+            (company.getRoomByName("room"),enigma),"item");
+    ASSERT_NO_THROW(company.addItem(company.getRoomByName("room1"),
+                                    enigma,"item"));
+    ASSERT_THROWS(CompanyRoomNotFoundException,company.removeItem
+            (company.getRoomByName("room2",enigma,"item")));
+    ASSERT_THROWS(CompanyRoomEnigmaNotFoundException,company.removeItem
+            (company.getRoomByName("room"),enigma1,"item"));
+    ASSERT_THROWS(CompanyRoomEnigmaHasNoElementsException,company.removeItem
+            (company.getRoomByName("room"),enigma,"item"));
+    ASSERT_THROWS(CompanyRoomEnigmaElementNotFoundException,company.removeItem
+            (company.getRoomByName("room1"),enigma,"item1"));
+    ASSERT_NO_THROW(company.removeItem(company.getRoomByName("room1"),
+                                       enigma,"item"));
+
 }
 
 static void CompanyPrint(){
-
+    Company company("4","100");
+    company.createRoom("room",40,3,3);
+    company.createScaryRoom("room1",90,10,10,10,10);
+    company.createKidsRoom("room2",80,5,5,6);
+    Company company1(company);
+    ASSERT_PRINT("4:100"
+                         "room11 (40/3/3)"
+                         "Scary Room: room1 (90/10/10/10)"
+                         "Kids Room: room2 (80/5/5/6)"
+    ,cout<<company);
+    ASSERT_PRINT("4:100"
+                         "room11 (40/3/3)"
+                         "Scary Room: room1 (90/10/10/10)"
+                         "Kids Room: room2 (80/5/5/6)"
+    ,cout<<company1);
 }

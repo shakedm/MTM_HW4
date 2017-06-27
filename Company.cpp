@@ -109,7 +109,10 @@ namespace mtm{
         void Company::removeRoom(const EscapeRoomWrapper& room) {
             try {
                 EscapeRoomWrapper* roomPtr = getRoomByName(room.getName());
-                delete(&roomPtr);
+                if ((*roomPtr) != room){
+                    throw CompanyRoomNotFoundException();
+                }
+                delete(roomPtr);
                 rooms.erase(roomPtr);
             } catch (CompanyRoomNotFoundException){
                 throw CompanyRoomNotFoundException();
@@ -121,6 +124,9 @@ namespace mtm{
                                 const Enigma &enigma) {
             try {
                 EscapeRoomWrapper* addTo = getRoomByName(room.getName());
+                if ((*addTo) != room){
+                    throw CompanyRoomNotFoundException();
+                }
                 addTo->addEnigma(enigma);
             } catch (CompanyRoomNotFoundException){
                 throw CompanyRoomNotFoundException();
@@ -131,6 +137,9 @@ namespace mtm{
                                    const Enigma &enigma) {
             try {
                 EscapeRoomWrapper* removeFrom = getRoomByName(room.getName());
+                if ((*removeFrom) != room){
+                    throw CompanyRoomNotFoundException();
+                }
                 removeFrom->removeEnigma(enigma);
             } catch (EscapeRoomNoEnigmasException){
                 throw CompanyRoomHasNoEnigmasException();
@@ -146,6 +155,9 @@ namespace mtm{
             EscapeRoomWrapper* wanted = NULL;
             try{
                 wanted = getRoomByName(room.getName());
+                if ((*wanted) != room){
+                    throw CompanyRoomNotFoundException();
+                }
             } catch (CompanyRoomNotFoundException){
                 throw CompanyRoomNotFoundException();
             }
@@ -165,6 +177,9 @@ namespace mtm{
             EscapeRoomWrapper* removeFromRoom = NULL;
             try{
                 removeFromRoom = getRoomByName(room.getName());
+                if ((*removeFromRoom) != room){
+                    throw CompanyRoomNotFoundException();
+                }
             } catch (CompanyRoomNotFoundException){
                 throw CompanyRoomNotFoundException();
             }
@@ -239,9 +254,8 @@ namespace mtm{
             for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
                  it != rooms.end(); ++it) {
                 EscapeRoomWrapper* current = *it;
-                delete (&current);
+                delete (current);
             }
-            delete(&rooms);
         }
 
         RoomType Company::getRoomType(const EscapeRoomWrapper* room) const {

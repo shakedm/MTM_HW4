@@ -1,18 +1,57 @@
 #include "Company.h"
 #include <exception>
-
-#include <iostream>
+#include <algorithm>
 using  namespace std;
 
 
 namespace mtm{
     namespace escaperoom {
 
-        Company::Company(string name, string phoneNumber) {}
+        Company::Company(string name, string phoneNumber) :
+                name(name),
+                phoneNumber(phoneNumber){
+            set<EscapeRoomWrapper*> *set1 = new set<EscapeRoomWrapper*>();
+            rooms = *set1;
+        }
 
-        Company::Company(const Company &company) {}
+        Company::Company(const Company &company) :
+                name (company.name),
+                phoneNumber(company.phoneNumber){
+            set<EscapeRoomWrapper*> *set1 = new set<EscapeRoomWrapper*>();
+            rooms = *set1;
+            for (set<EscapeRoomWrapper*>::iterator it = company.rooms.begin();
+                 it != company.rooms.end(); ++it) {
+                EscapeRoomWrapper* current = *it;
+                EscapeRoomWrapper* copy = new EscapeRoomWrapper((*current));
+                rooms.insert(copy);
+            }//given: no two rooms of a company have the same name.
+        }
 
-        Company& Company::operator=(const Company &company) {} //Adi
+        bool Company::operator==(const Company &company) const {
+            return phoneNumber == company.phoneNumber &&
+                   name == company.name;
+        }
+
+        bool Company::operator!=(const Company &company) const {
+            return !(*this == company);
+        }
+
+        Company& Company::operator=(const Company &company) {
+            if (*this == company){
+                return *this;
+            }
+            name = company.name;
+            phoneNumber = company.phoneNumber;
+            set<EscapeRoomWrapper*> *set1 = new set<EscapeRoomWrapper*>();
+            rooms = *set1;
+            for (set<EscapeRoomWrapper*>::iterator it = company.rooms.begin();
+                 it != company.rooms.end(); ++it) {
+                EscapeRoomWrapper* current = *it;
+                EscapeRoomWrapper* copy = new EscapeRoomWrapper((*current));
+                rooms.insert(copy);
+            }
+            return *this;
+        }
 
         void Company::createRoom(char *name, const int &escapeTime,
                                  const int &level,
@@ -36,16 +75,16 @@ namespace mtm{
 
             try {
 
-                ScaryRoom* new_room= new ScaryRoom(name, escapeTime,
-                                                  level, maxParticipants,
-                                                  ageLimit, numOfScaryEnigmas);
+                ScaryRoom *new_room = new ScaryRoom(name, escapeTime, level,
+                                                    maxParticipants, ageLimit,
+                                                    numOfScaryEnigmas);
                 rooms.insert((EscapeRoomWrapper*)new_room);
             } catch (EscapeRoomMemoryProblemException){
                 throw CompanyMemoryProblemException();
             }
 
 
-        } //Shaked
+        }
 
         void Company::createKidsRoom(char *name, const int &escapeTime,
                                      const int &level,
@@ -54,82 +93,112 @@ namespace mtm{
             try {
 
 
-                KidsRoom* new_room=new KidsRoom(name, escapeTime, level,
-                                                maxParticipants, ageLimit);
-                rooms.insert((EscapeRoomWrapper*)new_room);
+                KidsRoom *new_room = new KidsRoom(name, escapeTime, level,
+                                                  maxParticipants, ageLimit);
+                this->rooms.insert((EscapeRoomWrapper*)new_room);
             } catch (EscapeRoomMemoryProblemException){
                 throw CompanyMemoryProblemException();
             }
 
-        } //Shaked
+        }
 
         set<EscapeRoomWrapper*> Company::getAllRooms() const {
             return this->rooms;
         } //Adi
 
         void Company::removeRoom(const EscapeRoomWrapper& room) {
-            bool found = false;
-            for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
-                 it != rooms.end(); ++it) {
-                if ((*it)->getName() == room.getName()){
-                    rooms.erase(*it);
-                    found = true;
-                    break;
-                }//given: no two rooms of a company have the same name.
-            }
-            if (!found){
+            try {
+                EscapeRoomWrapper* roomPtr = getRoomByName(room.getName());
+                if ((*roomPtr) != room){
+                    throw CompanyRoomNotFoundException();
+                }
+                delete(roomPtr);
+                rooms.erase(roomPtr);
+            } catch (CompanyRoomNotFoundException){
                 throw CompanyRoomNotFoundException();
             }
 
-        } //Adi
+        }
 
         void Company::addEnigma(const EscapeRoomWrapper &room,
                                 const Enigma &enigma) {
-            bool found = false;
-            EscapeRoomWrapper* addTo = NULL;
-            for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
-                 it != rooms.end(); ++it) {
-                if ((*it)->getName() == room.getName()){
-                    addTo = *it;
-                    found = true;
-                    break;
-                }//given: no two rooms of a company have the same name.
-            }
-            if (!found){
+            try {
+                EscapeRoomWrapper* addTo = getRoomByName(room.getName());
+                if ((*addTo) != room){
+                    throw CompanyRoomNotFoundException();
+                }
+                addTo->addEnigma(enigma);
+            } catch (CompanyRoomNotFoundException){
                 throw CompanyRoomNotFoundException();
             }
-            addTo->addEnigma(enigma);
-        } //Shaked
+        }
 
         void Company::removeEnigma(const EscapeRoomWrapper &room,
                                    const Enigma &enigma) {
-            bool found = false;
-            EscapeRoomWrapper* removeFrom = NULL;
-            for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
-                 it != rooms.end(); ++it) {
-                if ((*it)->getName() == room.getName()){
-                    removeFrom = *it;
-                    found = true;
-                    break;
-                }//given: no two rooms of a company have the same name.
-            }
-            if (!found){
-                throw CompanyRoomNotFoundException();
-            }
             try {
+                EscapeRoomWrapper* removeFrom = getRoomByName(room.getName());
+                if ((*removeFrom) != room){
+                    throw CompanyRoomNotFoundException();
+                }
                 removeFrom->removeEnigma(enigma);
             } catch (EscapeRoomNoEnigmasException){
                 throw CompanyRoomHasNoEnigmasException();
             } catch (EscapeRoomEnigmaNotFoundException){
-                throw CompanyRoomEnigmaElementNotFoundException();
+                throw CompanyRoomEnigmaNotFoundException();
+            } catch (CompanyRoomNotFoundException){
+                throw CompanyRoomNotFoundException();
             }
-        } //Shaked
+        }
 
         void Company::addItem(const EscapeRoomWrapper &room,
-                              const Enigma &enigma, const string &element) {} //Adi
+                              const Enigma &enigma, const string &element) {
+            EscapeRoomWrapper* wanted = NULL;
+            try{
+                wanted = getRoomByName(room.getName());
+                if ((*wanted) != room){
+                    throw CompanyRoomNotFoundException();
+                }
+            } catch (CompanyRoomNotFoundException){
+                throw CompanyRoomNotFoundException();
+            }
+            vector<Enigma> enigmas;
+            enigmas = (*wanted).getAllEnigmas();
+            vector<Enigma>::iterator theEnigma = find(enigmas.begin(),
+                                                enigmas.end(), enigma);
+            if(theEnigma != enigmas.end()){
+                theEnigma->addElement(element);
+            } else {
+                throw CompanyRoomEnigmaNotFoundException();
+            }
+        }
 
         void Company::removeItem(const EscapeRoomWrapper &room,
-                                 const Enigma &enigma, const string &element) {} //Adi
+                                 const Enigma &enigma, const string &element) {
+            EscapeRoomWrapper* removeFromRoom = NULL;
+            try{
+                removeFromRoom = getRoomByName(room.getName());
+                if ((*removeFromRoom) != room){
+                    throw CompanyRoomNotFoundException();
+                }
+            } catch (CompanyRoomNotFoundException){
+                throw CompanyRoomNotFoundException();
+            }
+            vector<Enigma> enigmas;
+            enigmas = (*removeFromRoom).getAllEnigmas();
+            vector<Enigma>::iterator removeFromEnigma = find(enigmas.begin(),
+                                                      enigmas.end(), enigma);
+            if(removeFromEnigma != enigmas.end()){
+                try {
+                    removeFromEnigma->removeElement(element);
+                } catch (EnigmaElementNotFundException){
+                    throw CompanyRoomEnigmaElementNotFoundException();
+                } catch (EnigmaNoElementsException){
+                    throw CompanyRoomEnigmaHasNoElementsException();
+                }
+            } else {
+                throw CompanyRoomEnigmaNotFoundException();
+            }
+        }
 
         set<EscapeRoomWrapper*> Company::getAllRoomsByType(
                 RoomType type) const {
@@ -142,10 +211,25 @@ namespace mtm{
                 }
             }
             return filter;
-        } //Shaked
+        }
 
 
-        EscapeRoomWrapper Company::getRoomByName(const string &name) const {} //Adi
+        EscapeRoomWrapper* Company::getRoomByName(const string &name) const {
+            bool found = false;
+            EscapeRoomWrapper* wanted = NULL;
+            for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
+                 it != rooms.end(); ++it) {
+                if ((*it)->getName() == name){
+                    wanted = *it;
+                    found = true;
+                    break;
+                }//given: no two rooms of a company have the same name.
+            }
+            if (!found){
+                throw CompanyRoomNotFoundException();
+            }
+            return wanted;
+        }
 
         // Prints the data of the company in the following format:
         //
@@ -158,21 +242,27 @@ namespace mtm{
         std::ostream& operator<<(std::ostream &output,
                                           const Company &company) {
             output <<company.name<< ":" <<company.phoneNumber<<endl;
-            for (set<EscapeRoomWrapper*>::iterator it=rooms.begin() ;
-                    it!= rooms.end() ;++it){
-                output<< *(*it)<<endl;
+            for (set<EscapeRoomWrapper*>::iterator it=company.rooms.begin() ;
+                    it!= company.rooms.end() ;++it){
+                output<< *(*it) <<endl;
             }
             return output<< endl;
 
-        } //Shaked
+        }
 
-        Company::~Company() {}
+        Company::~Company() {
+            for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
+                 it != rooms.end(); ++it) {
+                EscapeRoomWrapper* current = *it;
+                delete (current);
+            }
+        }
 
-        static RoomType Company::getRoomType(const EscapeRoomWrapper* room) const {
-            ScaryRoom* a= dynamic_cast<ScaryRoom*>(room);
+        RoomType Company::getRoomType(const EscapeRoomWrapper* room) const {
+            const ScaryRoom* a= dynamic_cast<const ScaryRoom*>(room);
             if(a!=NULL)
                 return SCARY_ROOM;
-            KidsRoom* b= dynamic_cast<KidsRoom*>(room);
+            const KidsRoom* b= dynamic_cast<const KidsRoom*>(room);
             if(b!=NULL)
                 return KIDS_ROOM;
             return BASE_ROOM;

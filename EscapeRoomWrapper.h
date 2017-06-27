@@ -101,7 +101,7 @@ using std::vector;
 
         Enigma getHardestEnigma();
 
-        std::vector<Enigma>& getAllEnigmas();
+        vector<Enigma>& getAllEnigmas();
 
     };
 

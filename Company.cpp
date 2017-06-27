@@ -16,11 +16,11 @@ namespace mtm{
         void Company::createRoom(char *name, const int &escapeTime,
                                  const int &level,
                                  const int &maxParticipants) {
-            EscapeRoomWrapper room(name, escapeTime, level, maxParticipants);
             try {
+                EscapeRoomWrapper room(name, escapeTime, level, maxParticipants);
                 rooms.insert(&room);
-            } catch (exception& exception){
-                throw
+            } catch (EscapeRoomMemoryProblemException){
+                throw CompanyMemoryProblemException();
             }
         }
 
@@ -59,18 +59,42 @@ namespace mtm{
 
         } //Shaked
 
-        set<EscapeRoomWrapper*> Company::getAllRooms() const {} //Adi
+        set<EscapeRoomWrapper*> Company::getAllRooms() const {
+            return this->rooms;
+        } //Adi
 
-        void Company::removeRoom(const EscapeRoomWrapper &room) {
-
+        void Company::removeRoom(const EscapeRoomWrapper& room) {
+            bool found = false;
+            for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
+                 it != rooms.end(); ++it) {
+                if ((*it)->getName() == room.getName()){
+                    rooms.erase(*it);
+                    found = true;
+                    break;
+                }//given: no two rooms of a company have the same name.
+            }
+            if (!found){
+                throw CompanyRoomNotFoundException();
+            }
 
         } //Adi
 
         void Company::addEnigma(const EscapeRoomWrapper &room,
                                 const Enigma &enigma) {
-            if (rooms.end() == this->rooms.find(room))
+            bool found = false;
+            EscapeRoomWrapper* addTo = NULL;
+            for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
+                 it != rooms.end(); ++it) {
+                if ((*it)->getName() == room.getName()){
+                    addTo = *it;
+                    found = true;
+                    break;
+                }//given: no two rooms of a company have the same name.
+            }
+            if (!found){
                 throw CompanyRoomNotFoundException();
-            room.addEnigma(enigma);
+            }
+            addTo->addEnigma(enigma);
         } //Shaked
 
         void Company::removeEnigma(const EscapeRoomWrapper &room,

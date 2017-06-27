@@ -17,8 +17,11 @@ namespace mtm{
                                  const int &level,
                                  const int &maxParticipants) {
             try {
-                EscapeRoomWrapper room(name, escapeTime, level, maxParticipants);
-                rooms.insert(&room);
+                EscapeRoomWrapper *room = new EscapeRoomWrapper(name,
+                                                                escapeTime,
+                                                                level,
+                                                                maxParticipants);
+                rooms.insert(room);
             } catch (EscapeRoomMemoryProblemException){
                 throw CompanyMemoryProblemException();
             }
@@ -99,11 +102,21 @@ namespace mtm{
 
         void Company::removeEnigma(const EscapeRoomWrapper &room,
                                    const Enigma &enigma) {
-            if (rooms.find(room)==rooms.end())
+            bool found = false;
+            EscapeRoomWrapper* removeFrom = NULL;
+            for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
+                 it != rooms.end(); ++it) {
+                if ((*it)->getName() == room.getName()){
+                    removeFrom = *it;
+                    found = true;
+                    break;
+                }//given: no two rooms of a company have the same name.
+            }
+            if (!found){
                 throw CompanyRoomNotFoundException();
+            }
             try {
-
-                room.removeEnigma(enigma);
+                removeFrom->removeEnigma(enigma);
             } catch (EscapeRoomNoEnigmasException){
                 throw CompanyRoomHasNoEnigmasException();
             } catch (EscapeRoomEnigmaNotFoundException){

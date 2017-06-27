@@ -12,6 +12,7 @@
 
 using std::set;
 using std::string;
+using std::vector;
 
 namespace mtm{
     namespace escaperoom{
@@ -24,7 +25,9 @@ namespace mtm{
             string name; //the company's name
             string phoneNumber; //the company's phone number
             set<EscapeRoomWrapper*> rooms; //all the rooms the company has.
-            static RoomType getRoomType(const EscapeRoomWrapper* room) const ;
+
+            RoomType getRoomType(const EscapeRoomWrapper* room) const ;
+
         public:
 
             //// Constructs a new Company with the specified data.
@@ -130,7 +133,7 @@ namespace mtm{
             //
             // @param: name : the name of the room requested.
             // @throws: CompanyRoomNotFoundException if room doesnt exist.
-            EscapeRoomWrapper getRoomByName(const string& name) const;
+            EscapeRoomWrapper* getRoomByName(const string& name) const;
 
 
             // Prints the data of the company in the following format:
@@ -145,6 +148,11 @@ namespace mtm{
 
             //Destructor
             ~Company();
+
+            //compare operator.
+            bool operator==(const Company& company) const;
+
+            bool operator!=(const Company& company) const;
         };
 
         std::ostream& operator<<(std::ostream& output, const Company& company);

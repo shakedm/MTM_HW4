@@ -118,8 +118,8 @@ namespace escaperoom{
         }
         return hardest;
     }
-    std::vector<Enigma>& EscapeRoomWrapper::getAllEnigmas(){
-        return roomEnigma;
+    vector<Enigma>& EscapeRoomWrapper::getAllEnigmas(){
+        return this->roomEnigma;
     }
 }
 }

@@ -24,7 +24,7 @@ namespace mtm{
             string name; //the company's name
             string phoneNumber; //the company's phone number
             set<EscapeRoomWrapper*> rooms; //all the rooms the company has.
-
+            static RoomType getRoomType(const EscapeRoomWrapper* room) const ;
         public:
 
             //// Constructs a new Company with the specified data.

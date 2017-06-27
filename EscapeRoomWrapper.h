@@ -16,8 +16,6 @@ using std::vector;
     class EscapeRoomWrapper {
         EscapeRoom escaperoom;
         vector<Enigma> roomEnigma;
-        static double calculatePower(const int& maxTime, const int& level,
-                             const int& maxParticipants);
     public:
         // Constructs a new Escape Room with the specified data.
         //

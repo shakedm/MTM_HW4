@@ -61,13 +61,6 @@ namespace escaperoom{
                          roomGetMaxParticipants(room.escaperoom) << ")";
     }
 
-    double EscapeRoomWrapper::calculatePower(const int& maxTime, const int& level,
-                          const int& maxParticipants){
-        double power;
-        power = level*maxTime;
-        power /= maxParticipants;
-        return power;
-    }
 
     bool EscapeRoomWrapper::operator==(const EscapeRoomWrapper& room) const{
         return areEqualRooms(this->escaperoom,room.escaperoom);

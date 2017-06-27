@@ -7,6 +7,8 @@
 #include <set>
 #include "EscapeRoomWrapper.h"
 #include "Enigma.h"
+#include "KidsRoom.h"
+#include "ScaryRoom.h"
 
 using std::set;
 using std::string;

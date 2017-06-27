@@ -16,9 +16,10 @@ namespace mtm{
         void Company::createRoom(char *name, const int &escapeTime,
                                  const int &level,
                                  const int &maxParticipants) {
+            EscapeRoomWrapper* room=new EscapeRoomWrapper(name, escapeTime,
+                                                       level, maxParticipants);
             try {
-                EscapeRoomWrapper room(name, escapeTime, level, maxParticipants);
-                rooms.insert(&room);
+                rooms.insert(room);
             } catch (EscapeRoomMemoryProblemException){
                 throw CompanyMemoryProblemException();
             }
@@ -32,10 +33,10 @@ namespace mtm{
 
             try {
 
-                ScaryRoom new_room(name, escapeTime, level, maxParticipants,
-                                   ageLimit,
-                                   numOfScaryEnigmas);
-                this->rooms.insert(&new_room);
+                ScaryRoom* new_room= new ScaryRoom(name, escapeTime,
+                                                  level, maxParticipants,
+                                                  ageLimit, numOfScaryEnigmas);
+                rooms.insert((EscapeRoomWrapper*)new_room);
             } catch (EscapeRoomMemoryProblemException){
                 throw CompanyMemoryProblemException();
             }
@@ -50,51 +51,27 @@ namespace mtm{
             try {
 
 
-                KidsRoom new_room(name, escapeTime, level, maxParticipants,
-                                  ageLimit);
-                this->rooms.insert(&new_room);
+                KidsRoom* new_room=new KidsRoom(name, escapeTime, level,
+                                                maxParticipants, ageLimit);
+                rooms.insert((EscapeRoomWrapper*)new_room);
             } catch (EscapeRoomMemoryProblemException){
                 throw CompanyMemoryProblemException();
             }
 
         } //Shaked
 
-        set<EscapeRoomWrapper*> Company::getAllRooms() const {
-            return this->rooms;
-        } //Adi
+        set<EscapeRoomWrapper*> Company::getAllRooms() const {} //Adi
 
-        void Company::removeRoom(const EscapeRoomWrapper& room) {
-            bool found = false;
-            for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
-                 it != rooms.end(); ++it) {
-                if ((*it)->getName() == room.getName()){
-                    rooms.erase(*it);
-                    found = true;
-                    break;
-                }//given: no two rooms of a company have the same name.
-            }
-            if (!found){
-                throw CompanyRoomNotFoundException();
-            }
+        void Company::removeRoom(const EscapeRoomWrapper &room) {
+
 
         } //Adi
 
         void Company::addEnigma(const EscapeRoomWrapper &room,
                                 const Enigma &enigma) {
-            bool found = false;
-            EscapeRoomWrapper* addTo = NULL;
-            for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
-                 it != rooms.end(); ++it) {
-                if ((*it)->getName() == room.getName()){
-                    addTo = *it;
-                    found = true;
-                    break;
-                }//given: no two rooms of a company have the same name.
-            }
-            if (!found){
+            if (rooms.end() == this->rooms.find(room))
                 throw CompanyRoomNotFoundException();
-            }
-            addTo->addEnigma(enigma);
+            room.addEnigma(enigma);
         } //Shaked
 
         void Company::removeEnigma(const EscapeRoomWrapper &room,

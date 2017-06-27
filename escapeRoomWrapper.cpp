@@ -95,7 +95,7 @@ namespace escaperoom{
     void EscapeRoomWrapper::addEnigma(const Enigma& enigma){
         roomEnigma.push_back(enigma);
     }
-    void EscapeRoomWrapper::removeEnigma(const Enigma& enigma){
+    void EscapeRoomWrapper::removeEnigma(const Enigma& enigma)const {
         if (roomEnigma.size()==0)
             throw EscapeRoomNoEnigmasException();
         for (int i = 0; i < (int)roomEnigma.size() ; ++i) {

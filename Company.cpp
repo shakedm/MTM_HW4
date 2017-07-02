@@ -271,7 +271,6 @@ namespace mtm{
                  it != rooms.end(); ++it) {
                 delete (*it);
             }
-            //delete (*this).rooms;
         }
 
         RoomType Company::getRoomType(const EscapeRoomWrapper* room) const {

@@ -10,8 +10,8 @@ namespace mtm{
         Company::Company(string name, string phoneNumber) :
                 name(name),
                 phoneNumber(phoneNumber){
-            set<EscapeRoomWrapper*> set1 = set<EscapeRoomWrapper*>();
-            rooms = set1;
+            //set<EscapeRoomWrapper*> *set1 = new set<EscapeRoomWrapper*>();
+            rooms = set<EscapeRoomWrapper*>();
         }
 
         Company::Company(const Company &company) :
@@ -271,7 +271,7 @@ namespace mtm{
                  it != rooms.end(); ++it) {
                 delete (*it);
             }
-            delete &rooms;
+            //delete (*this).rooms;
         }
 
         RoomType Company::getRoomType(const EscapeRoomWrapper* room) const {

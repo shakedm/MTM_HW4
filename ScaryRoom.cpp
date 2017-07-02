@@ -14,6 +14,10 @@ ScaryRoom::ScaryRoom(char *name, const int &escapeTime, const int &level,
     NumOfScaryEnigmas=numOfScaryEnigmas;
 }
 
+EscapeRoomWrapper* ScaryRoom::clone() const {
+    return new ScaryRoom(*this);
+}
+
 void ScaryRoom::incNumberOfScaryEnigmas() {
     NumOfScaryEnigmas++;
 }

@@ -195,7 +195,7 @@ namespace mtm{
             if(removeFromEnigma != enigmas.end()){
                 try {
                     removeFromEnigma->removeElement(element);
-                } catch (EnigmaElementNotFundException){
+                } catch (EnigmaElementNotFoundException){
                     throw CompanyRoomEnigmaElementNotFoundException();
                 } catch (EnigmaNoElementsException){
                     throw CompanyRoomEnigmaHasNoElementsException();

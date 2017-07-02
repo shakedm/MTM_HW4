@@ -29,6 +29,8 @@ public:
      * the default destructor calls the destructor of father class,
      * which is good for us
      */
+    EscapeRoomWrapper* clone()const override;
+
     ~ScaryRoom()= default;
 
     /*!

@@ -22,6 +22,10 @@ namespace escaperoom{
         escaperoom=room;
     }
 
+    EscapeRoomWrapper* EscapeRoomWrapper::clone() const {
+        return new EscapeRoomWrapper(*this);
+    }
+
     EscapeRoomWrapper::EscapeRoomWrapper(const EscapeRoomWrapper &room) {
         EscapeRoom room1 =escapeRoomCopy(room.escaperoom);
         if(!room1){

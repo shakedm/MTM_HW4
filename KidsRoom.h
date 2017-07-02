@@ -27,6 +27,10 @@ namespace mtm {
 
             KidsRoom(const KidsRoom& room)= default;
 
+            /*!
+             * this function creates a pointer copy for the specific room type.
+             * @return pointer to the room object.
+             */
             EscapeRoomWrapper* clone()const override ;
 
             /*!
@@ -42,6 +46,8 @@ namespace mtm {
              * @return int age limit.
              */
             int getAgeLimit() const;
+
+
 
         };
         /*!

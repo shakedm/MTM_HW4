@@ -25,6 +25,10 @@ namespace mtm {
             KidsRoom(char* name, const int& escapeTime, const int& level,
                      const int& maxParticipants, const int& ageLimit);
 
+            KidsRoom(const KidsRoom& room);
+
+            EscapeRoomWrapper* clone(const EscapeRoomWrapper* room)override ;
+
             /*!
              * function sets the age limit field to new (given) param.
              * @param limit - the new age limit.

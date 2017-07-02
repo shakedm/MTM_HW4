@@ -13,6 +13,10 @@ namespace mtm{
             AgeLimit = ageLimit;
         }
 
+        KidsRoom::KidsRoom(const KidsRoom &room) {
+
+        }
+
         void KidsRoom::setNewAgeLimit(const int& limit){
             if (limit < MIN){
                 throw KidsRoomIllegalAgeLimit();

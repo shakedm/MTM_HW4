@@ -272,7 +272,7 @@ namespace mtm{
                 EscapeRoomWrapper* current = *it;
                 delete (current);
             }
-            delete rooms;
+            delete &rooms;
         }
 
         RoomType Company::getRoomType(const EscapeRoomWrapper* room) const {

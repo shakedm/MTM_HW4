@@ -29,9 +29,13 @@ public:
      * the default destructor calls the destructor of father class,
      * which is good for us
      */
+    ~ScaryRoom()= default;
+
+
     EscapeRoomWrapper* clone()const override;
 
-    ~ScaryRoom()= default;
+    ScaryRoom(const ScaryRoom&)= default;
+
 
     /*!
      * the default operator is not good for us, therefore i need to work more

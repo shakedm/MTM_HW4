@@ -22,7 +22,7 @@ namespace mtm{
             for (set<EscapeRoomWrapper*>::iterator it = company.rooms.begin();
                  it != company.rooms.end(); ++it) {
                 EscapeRoomWrapper* current = *it;
-                EscapeRoomWrapper* copy = new EscapeRoomWrapper((*current));
+                EscapeRoomWrapper* copy = (*current).clone();
                 rooms.insert(copy);
             }//given: no two rooms of a company have the same name.
         }
@@ -47,7 +47,7 @@ namespace mtm{
             for (set<EscapeRoomWrapper*>::iterator it = company.rooms.begin();
                  it != company.rooms.end(); ++it) {
                 EscapeRoomWrapper* current = *it;
-                EscapeRoomWrapper* copy = new EscapeRoomWrapper((*current));
+                EscapeRoomWrapper* copy = (*current).clone();
                 rooms.insert(copy);
             }
             return *this;
@@ -272,6 +272,7 @@ namespace mtm{
                 EscapeRoomWrapper* current = *it;
                 delete (current);
             }
+            delete rooms;
         }
 
         RoomType Company::getRoomType(const EscapeRoomWrapper* room) const {

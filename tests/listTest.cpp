@@ -1,6 +1,6 @@
-#include "list.h"
-#include "mtmtest.h"
-#include "Exceptions.h"
+#include "../list.h"
+#include "../mtmtest.h"
+#include "../Exceptions.h"
 class Equal {
 private:
     int target;
@@ -18,7 +18,7 @@ static void LISTbasic(){
     list.insert(3);
     list.insert(4,list.end());
 
-    item=1;
+    int item=1;
     for (List<int>::Iterator it= list.begin(); it != list.end(); ++it) {
         ASSERT_EQUALS(item++, *it);
 
@@ -62,12 +62,13 @@ static void LISTfind(){
         list.insert(i);
     }
     ASSERT_EQUALS(list.end(),list.find(Equal(20)));
-    ASSERT_EQUALS(list.begin()+2,list.find(Equal(2)));
+    ASSERT_NOT_EQUAL(list.begin(),list.find(Equal(2)));
 
 }
 
-int main(){
+int mainList(){
     RUN_TEST(LISTfind);
     RUN_TEST(LISToperators);
     RUN_TEST(LISTbasic);
+    return 0;
 }

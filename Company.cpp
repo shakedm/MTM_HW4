@@ -245,7 +245,18 @@ namespace mtm{
             output <<company.name<< ":" <<company.phoneNumber<<endl;
             for (set<EscapeRoomWrapper*>::iterator it=company.rooms.begin() ;
                     it!= company.rooms.end() ;++it){
-                output<< *(*it) <<endl;
+                ScaryRoom* scaryRoom= dynamic_cast<ScaryRoom*> (*it);
+                if (scaryRoom!= NULL){
+                    output<< *scaryRoom <<endl;
+                } else{
+                    KidsRoom* kidsRoom= dynamic_cast<KidsRoom*>(*it);
+                    if (kidsRoom!=NULL){
+                        output<<*kidsRoom<< endl;
+                    } else{
+                        output<< *(*it) <<endl;
+                    }
+                }
+
             }
             return output<< endl;
 

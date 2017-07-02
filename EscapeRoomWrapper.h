@@ -35,7 +35,7 @@ using std::vector;
         // @throws EscapeRoomMemoryProblemException in case of creation failure.
         EscapeRoomWrapper(char* name, const int& level);
 
-        virtual EscapeRoomWrapper* clone(const EscapeRoomWrapper* room);
+        virtual EscapeRoomWrapper* clone() const;
 
         //copy constructor
         //

@@ -13,8 +13,9 @@ namespace mtm{
             AgeLimit = ageLimit;
         }
 
-        KidsRoom::KidsRoom(const KidsRoom &room) {
+        EscapeRoomWrapper* KidsRoom::clone() const {
 
+            return new KidsRoom(*this);
         }
 
         void KidsRoom::setNewAgeLimit(const int& limit){

@@ -1,6 +1,6 @@
-#include "ScaryRoom.h"
-#include "mtmtest.h"
-#include "Exceptions.h"
+#include "../ScaryRoom.h"
+#include "../mtmtest.h"
+#include "../Exceptions.h"
 
 
 
@@ -61,7 +61,7 @@ static void SCRIncEnigma(){
     ASSERT_NO_THROW(room.incNumberOfScaryEnigmas());
 }
 
-int main(){
+int mainScary(){
     RUN_TEST(SCRbasic);
     RUN_TEST(SCRageLimit);
     RUN_TEST(SCRprint);

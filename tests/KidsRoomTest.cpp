@@ -1,5 +1,5 @@
-#include "KidsRoom.h"
-#include "mtmtest.h"
+#include "../KidsRoom.h"
+#include "../mtmtest.h"
 
 
 
@@ -66,7 +66,7 @@ static void KDSprint(){
 }
 
 
-int main(){
+int mainKids(){
     RUN_TEST(KDSRbasic);
     RUN_TEST(KDSRoperator);
     RUN_TEST(KDSsetAgeLimit);

@@ -163,7 +163,7 @@ namespace mtm{
                 throw CompanyRoomNotFoundException();
             }
             vector<Enigma>* enigmas = &(wanted->getAllEnigmas());
-            int size = (int)enigmas->size();
+            unsigned int size = (unsigned int)enigmas->size();
             unsigned int i;
             for (i = 0; i < size; ++i) {
                 if (enigmas->at(i) == enigma){

@@ -1,8 +1,6 @@
-#include "Enigma.h"
-#include "mtmtest.h"
+#include "../Enigma.h"
+#include "../mtmtest.h"
 #include <functional>
-#include <string>
-#include <iostream>
 
 using namespace mtm::escaperoom;
 
@@ -174,7 +172,7 @@ void EnigmaBuilders(){
     Enigma third("3", HARD_ENIGMA);
     //wrong set size
     ASSERT_THROWS(EnigmaIllegalSizeParamException, Enigma("3", HARD_ENIGMA, 5,
-                                                           test));
+                                                          test));
 
     //check copy builder:
     Enigma first_copy(first);
@@ -186,7 +184,7 @@ void EnigmaBuilders(){
 
 
 
-int main() {
+int mainEnigma() {
     RUN_TEST(EnigmaBuilders);
     RUN_TEST(EnigmaEqual);
     RUN_TEST(EnigmaNotEqual);
@@ -198,4 +196,5 @@ int main() {
     RUN_TEST(EnigmaGetDifficulty);
     RUN_TEST(EnigmaAddRemoveElement);
     std::cout << "All Done!" << std::endl;
+    return 0;
 }

@@ -269,10 +269,9 @@ namespace mtm{
         Company::~Company() {
             for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
                  it != rooms.end(); ++it) {
-                EscapeRoomWrapper* current = *it;
-                delete (current);
+                delete (*it);
             }
-            delete rooms;
+            delete (&rooms);
         }
 
         RoomType Company::getRoomType(const EscapeRoomWrapper* room) const {

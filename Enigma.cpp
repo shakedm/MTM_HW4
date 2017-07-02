@@ -43,7 +43,7 @@ namespace mtm {
             }
             set<string>::iterator iterator = elements.find(element);
             if (iterator == elements.end()){
-                throw EnigmaElementNotFundException();
+                throw EnigmaElementNotFoundException();
             }
             elements.erase(element);
         }

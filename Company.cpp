@@ -162,12 +162,16 @@ namespace mtm{
             } catch (CompanyRoomNotFoundException){
                 throw CompanyRoomNotFoundException();
             }
-            vector<Enigma> enigmas;
-            enigmas = (*wanted).getAllEnigmas();
-            vector<Enigma>::iterator theEnigma = find(enigmas.begin(),
-                                                enigmas.end(), enigma);
-            if(theEnigma != enigmas.end()){
-                theEnigma->addElement(element);
+            vector<Enigma>* enigmas = &(wanted->getAllEnigmas());
+            int size = (int)enigmas->size();
+            unsigned int i;
+            for (i = 0; i < size; ++i) {
+                if (enigmas->at(i) == enigma){
+                    break;
+                }
+            }
+            if(i != size){
+                (enigmas->at(i)).addElement(element);
             } else {
                 throw CompanyRoomEnigmaNotFoundException();
             }

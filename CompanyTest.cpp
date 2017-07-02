@@ -111,19 +111,16 @@ static void CompanyPrint(){
     company.createScaryRoom((char*)"room1",90,10,10,10,10);
     company.createKidsRoom((char*)"room2",80,5,5,6);
     Company company1(company);
-    cout<< company;
-    cout<< company1;
+    company.removeRoom(*company.getRoomByName("room"));
+    company.removeRoom(*company.getRoomByName("room1"));
+    ASSERT_PRINT("4:100\nKids Room: room2 (80/5/5/6)\n\n",company);
+    company1.removeRoom(*company1.getRoomByName("room"));
+    company1.removeRoom((*company1.getRoomByName("room2")));
+    ASSERT_PRINT("4:100\nScary Room: room1 (90/10/10/10)\n\n",company1);
+    company.removeRoom(*company.getRoomByName("room2"));
+    company.createRoom((char*)"room",40,3,3);
+    ASSERT_PRINT("4:100\nroom (40/3/3)\n\n",company);
 
-    ASSERT_PRINT("4:100"
-                         "room11 (40/3/3)"
-                         "Scary Room: room1 (90/10/10/10)"
-                         "Kids Room: room2 (80/5/5/6)"
-    ,company);
-    ASSERT_PRINT("4:100"
-                         "room11 (40/3/3)"
-                         "Scary Room: room1 (90/10/10/10)"
-                         "Kids Room: room2 (80/5/5/6)"
-    ,company1);
 }
 
 int main(){

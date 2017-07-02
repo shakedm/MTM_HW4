@@ -25,7 +25,7 @@ namespace mtm {
             KidsRoom(char* name, const int& escapeTime, const int& level,
                      const int& maxParticipants, const int& ageLimit);
 
-            //KidsRoom(const KidsRoom& room);
+            KidsRoom(const KidsRoom& room)= default;
 
             /*!
              * this function creates a pointer copy for the specific room type.

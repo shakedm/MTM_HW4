@@ -17,8 +17,8 @@ namespace mtm{
         Company::Company(const Company &company) :
                 name (company.name),
                 phoneNumber(company.phoneNumber){
-            set<EscapeRoomWrapper*> *set1 = new set<EscapeRoomWrapper*>();
-            rooms = *set1;
+            set<EscapeRoomWrapper*> set1 = set<EscapeRoomWrapper*>();
+            rooms = set1;
             for (set<EscapeRoomWrapper*>::iterator it = company.rooms.begin();
                  it != company.rooms.end(); ++it) {
                 EscapeRoomWrapper* current = *it;
@@ -42,8 +42,8 @@ namespace mtm{
             }
             name = company.name;
             phoneNumber = company.phoneNumber;
-            set<EscapeRoomWrapper*> *set1 = new set<EscapeRoomWrapper*>();
-            rooms = *set1;
+            set<EscapeRoomWrapper*> set1 = set<EscapeRoomWrapper*>();
+            rooms = set1;
             for (set<EscapeRoomWrapper*>::iterator it = company.rooms.begin();
                  it != company.rooms.end(); ++it) {
                 EscapeRoomWrapper* current = *it;
@@ -271,7 +271,6 @@ namespace mtm{
                  it != rooms.end(); ++it) {
                 delete (*it);
             }
-            //delete (*this).rooms;
         }
 
         RoomType Company::getRoomType(const EscapeRoomWrapper* room) const {

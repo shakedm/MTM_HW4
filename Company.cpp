@@ -42,6 +42,10 @@ namespace mtm{
             }
             name = company.name;
             phoneNumber = company.phoneNumber;
+            for (set<EscapeRoomWrapper*>::iterator it = rooms.begin();
+                 it != rooms.end(); ++it) {
+                delete (*it);
+            }
             set<EscapeRoomWrapper*> set1 = set<EscapeRoomWrapper*>();
             rooms = set1;
             for (set<EscapeRoomWrapper*>::iterator it = company.rooms.begin();

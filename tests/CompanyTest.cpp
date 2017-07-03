@@ -102,7 +102,8 @@ static void CompanyItem(){
             (*company.getRoomByName("room1"),enigma,"item1"));
     ASSERT_NO_THROW(company.removeItem(*company.getRoomByName("room1"),
                                        enigma,"item"));
-
+    ASSERT_THROWS(CompanyRoomEnigmaHasNoElementsException ,company.removeItem
+            (*company.getRoomByName("room1"),enigma,"item"));
 }
 
 static void CompanyPrint(){
@@ -123,7 +124,7 @@ static void CompanyPrint(){
 
 }
 
-int mainCompany(){
+int main(){
     RUN_TEST(CompanyPrint);
     RUN_TEST(CompanyBasic);
     RUN_TEST(CompanyOperators);

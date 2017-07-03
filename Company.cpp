@@ -188,13 +188,13 @@ namespace mtm{
             } catch (CompanyRoomNotFoundException){
                 throw CompanyRoomNotFoundException();
             }
-            vector<Enigma> enigmas;
-            enigmas = (*removeFromRoom).getAllEnigmas();
+            vector<Enigma>& enigmas = (*removeFromRoom).getAllEnigmas();
             vector<Enigma>::iterator removeFromEnigma = find(enigmas.begin(),
                                                       enigmas.end(), enigma);
             if(removeFromEnigma != enigmas.end()){
                 try {
-                    removeFromEnigma->removeElement(element);
+                    (find(enigmas.begin(),
+                         enigmas.end(), enigma))->removeElement(element);
                 } catch (EnigmaElementNotFoundException){
                     throw CompanyRoomEnigmaElementNotFoundException();
                 } catch (EnigmaNoElementsException){

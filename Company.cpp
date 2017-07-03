@@ -10,7 +10,6 @@ namespace mtm{
         Company::Company(string name, string phoneNumber) :
                 name(name),
                 phoneNumber(phoneNumber){
-            //set<EscapeRoomWrapper*> *set1 = new set<EscapeRoomWrapper*>();
             rooms = set<EscapeRoomWrapper*>();
         }
 
@@ -108,7 +107,7 @@ namespace mtm{
 
         set<EscapeRoomWrapper*> Company::getAllRooms() const {
             return this->rooms;
-        } //Adi
+        }
 
         void Company::removeRoom(const EscapeRoomWrapper& room) {
             try {
@@ -192,7 +191,7 @@ namespace mtm{
             } catch (CompanyRoomNotFoundException){
                 throw CompanyRoomNotFoundException();
             }
-            vector<Enigma>& enigmas = (*removeFromRoom).getAllEnigmas();
+            vector<Enigma>& enigmas=(*removeFromRoom).getAllEnigmas();
             vector<Enigma>::iterator removeFromEnigma = find(enigmas.begin(),
                                                       enigmas.end(), enigma);
             if(removeFromEnigma != enigmas.end()){

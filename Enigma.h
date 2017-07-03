@@ -63,7 +63,7 @@ namespace escaperoom{
          * function removes the sepecified string element from the elements set.
          * @param element : the string element to remove.
          *
-         * @exception EnigmaNoElementsException : the elemts isn't in the set.
+         * @exception EnigmaNoElementsException : the element isn't in the set.
          */
         void removeElement(const string& element);
 

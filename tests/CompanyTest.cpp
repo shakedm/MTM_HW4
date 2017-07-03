@@ -84,6 +84,8 @@ static void CompanyItem(){
     Enigma enigma1("q",HARD_ENIGMA);
     company.createRoom((char*)"room",60,6,8);
     company.createRoom((char*)"room1",90,4,3);
+    Company company1("5","911");
+    company1.createRoom((char*)"room2",60,7,5);
     company.addEnigma(*company.getRoomByName("room1"),enigma);
     ASSERT_THROWS(CompanyRoomNotFoundException,company.addItem
             (*company.getRoomByName("room2"),enigma,"item"));
@@ -92,7 +94,7 @@ static void CompanyItem(){
     ASSERT_NO_THROW(company.addItem(*company.getRoomByName("room1"),
                                     enigma,"item"));
     ASSERT_THROWS(CompanyRoomNotFoundException,company.removeItem
-            (*company.getRoomByName("room2"),enigma,"item"));
+            (*company1.getRoomByName("room2"),enigma,"item"));
     ASSERT_THROWS(CompanyRoomEnigmaNotFoundException,company.removeItem
             (*company.getRoomByName("room"),enigma1,"item"));
     company.addEnigma(*company.getRoomByName("room"), enigma1);

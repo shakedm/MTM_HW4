@@ -246,7 +246,7 @@ namespace mtm{
         // @param company : the company whose data is printed.
         std::ostream& operator<<(std::ostream &output,
                                           const Company &company) {
-            output <<company.name<< ":" <<company.phoneNumber<<endl;
+            output <<company.name<< " : " <<company.phoneNumber<<endl;
             for (set<EscapeRoomWrapper*>::iterator it=company.rooms.begin() ;
                     it!= company.rooms.end() ;++it){
                 ScaryRoom* scaryRoom= dynamic_cast<ScaryRoom*> (*it);

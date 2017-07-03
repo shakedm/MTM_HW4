@@ -149,12 +149,24 @@ namespace mtm{
             //Destructor
             ~Company();
 
-            //compare operator.
+            //compare operator. two companies would be considered equal if they
+            //have the same name & phone number.
             bool operator==(const Company& company) const;
 
+            //compare operator. returns the NOT of the == operator.
             bool operator!=(const Company& company) const;
         };
 
+        /*!
+         * print operator overloading. prints in the following format:
+         * <CompanyName> : <PhoneNumber>
+         * <Room>
+         * <Room> ….
+         * @param output - the output channel to ptint to.
+         * @param room - the room to print the info about.
+         *
+         * @return print.
+         */
         std::ostream& operator<<(std::ostream& output, const Company& company);
     }
 }

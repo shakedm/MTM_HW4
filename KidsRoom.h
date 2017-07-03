@@ -25,6 +25,7 @@ namespace mtm {
             KidsRoom(char* name, const int& escapeTime, const int& level,
                      const int& maxParticipants, const int& ageLimit);
 
+            //default assginment operator is good here.
             KidsRoom(const KidsRoom& room)= default;
 
             /*!

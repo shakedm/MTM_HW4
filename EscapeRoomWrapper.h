@@ -96,17 +96,50 @@ using std::vector;
         //Function returns the number of participants allowed in the EscapeRoom.
         //
         int getMaxParticipants() const;
-
+        /*!
+         * function recieves an enigma and adds it to the room's enigma vector
+         * @param enigma - the enigma to add.
+         */
         void addEnigma(const Enigma& enigma);
 
+        /*!
+         * function removes the given enigma from the room's enigma vector.
+         * @param enigma - the enigma to remove.
+         *
+         * @throw - EscapeRoomNoEnigmasException - in case there are no enigmas
+         *                                          in the room.
+         *       - .EscapeRoomEnigmaNotFoundException - in case the given enigma
+         *                                          isn't found in the room's
+         *                                          enigmas vector.
+         */
         void removeEnigma(const Enigma& enigma);
 
+        /*!
+         * function returns the enigma with the highest difficulty level (if
+         * there is more than one, function returns the first that's found)
+         * @return - the hardest of the room's enigmas
+         *
+         * @throw - .EscapeRoomNoEnigmasException - in case there are no
+         * enigmas in the room.
+         */
         Enigma getHardestEnigma();
 
+        /*!
+         * function returns the room's enigmas vector.
+         * @return - vector with enigma type nodes
+         */
         vector<Enigma>& getAllEnigmas();
 
     };
 
+    /*!
+     * print operator overloading. prints in the following format:
+     * <name> (<maxTime>/<level>/<maxParticipants>)
+     * @param output - the output channel to ptint to.
+     * @param room - the room to print the info about.
+     *
+     * @return print.
+     */
     std::ostream& operator<<(std::ostream& output, const EscapeRoomWrapper& room);
 } // end of namespace eascaperoom
 } // end of namespace mtm

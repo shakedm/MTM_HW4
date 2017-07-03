@@ -109,7 +109,8 @@ namespace escaperoom{
 
         //friend std::set<std::string>;
 
-
+        //default d'tor is good here, since no specific "new"s were needed
+        //during the
         ~Enigma() = default;
 
         //Function returns the name of the enigma.

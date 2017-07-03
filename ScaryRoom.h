@@ -31,9 +31,13 @@ public:
      */
     ~ScaryRoom()= default;
 
-
+    /*!
+     * this function creates a pointer copy for the specific room type.
+     * @return pointer to the room object.
+     */
     EscapeRoomWrapper* clone()const override;
 
+    //default assignment operator is good here.
     ScaryRoom(const ScaryRoom&)= default;
 
 
@@ -71,6 +75,14 @@ public:
      */
 
     };
+    /*!
+     * print operator overloading. prints in the following format:
+     * Scary Room: <name> (<maxTime>/<level>/<maxParticipants>/<ageLimit>)
+     * @param output - the output channel to ptint to.
+     * @param room - the room to print the info about.
+     *
+     * @return print.
+     */
     std::ostream& operator<<(std::ostream& output,const ScaryRoom& room);
 }
 }

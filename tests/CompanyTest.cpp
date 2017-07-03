@@ -124,7 +124,7 @@ static void CompanyPrint(){
 
 }
 
-int mainCompany(){
+int main(){
     RUN_TEST(CompanyPrint);
     RUN_TEST(CompanyBasic);
     RUN_TEST(CompanyOperators);

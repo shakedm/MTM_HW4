@@ -46,6 +46,7 @@ namespace mtm {
                 throw EnigmaElementNotFoundException();
             }
             elements.erase(element);
+            numOfElements--;
         }
 
         bool Enigma::operator==(const Enigma& enigma) const{

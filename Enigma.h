@@ -119,7 +119,12 @@ namespace escaperoom{
 
 
     };
-
+    // Prints the data of the Enigma in the following format:
+    //
+    //     "<name> (<Difficulty>) <number of items>"
+    //
+    // @param output : the output stream to which the data is printed.
+    // @param enigma : the enigma whose data is printed.
     std::ostream& operator<<(std::ostream& output, const Enigma& enigma);
 } // end of namespace eascaperoom
 } // end of namespace mtm
